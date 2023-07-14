@@ -13,7 +13,7 @@ namespace MedicineProject.Models
 
         public int RiskFactorId { get; set; }
 
-        public int IllnesId { get; set; }
+        public int IllnessId { get; set; }
 
         public Patient()
         {
@@ -23,10 +23,10 @@ namespace MedicineProject.Models
         public Patient(PatientDTO patient) : 
             base(patient) 
         {
-            RiskFactor = patient.RiskFactor;
-            Illness = patient.Illness;
+            RiskFactor = new RiskFactor(patient.RiskFactor);
+            Illness = new Illness(patient.Illness);
             RiskFactorId = patient.RiskFactorId;
-            IllnesId = patient.IllnesId;
+            IllnessId = patient.IllnessId;
         }
     }
 }

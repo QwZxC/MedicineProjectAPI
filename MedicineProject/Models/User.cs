@@ -5,8 +5,6 @@ namespace MedicineProject.Models
 {
     public abstract class User : BaseModel
     {
-        public string Name { get; set; }
-
         public string Surname { get; set; }
 
         public string? Patronymic { get; set; }
@@ -26,6 +24,7 @@ namespace MedicineProject.Models
             Surname = personDTO.Surname;
             Patronymic = personDTO.Patronymic;
             Email = personDTO.Email;
+            Password = personDTO.Password;
         }
     }
 }

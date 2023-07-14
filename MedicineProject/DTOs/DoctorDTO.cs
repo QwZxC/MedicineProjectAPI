@@ -8,6 +8,11 @@ namespace MedicineProject.DTOs
 
         public Speciality Speciality { get; set; }
 
+        public DoctorDTO()
+        {
+
+        }
+
         public DoctorDTO(Doctor doctor) : base(doctor) 
         {
             SpecialityId = doctor.SpecialityId;

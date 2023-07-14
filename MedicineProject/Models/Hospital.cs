@@ -5,8 +5,6 @@ namespace MedicineProject.Models
 {
     public class Hospital : BaseModel 
     {
-        public string Name { get; set; }
-
         public string Description { get; set; }
 
         public string Address { get; set; }

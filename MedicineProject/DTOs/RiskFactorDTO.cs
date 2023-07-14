@@ -9,6 +9,8 @@ namespace MedicineProject.DTOs
 
         public string Description { get; set; }
 
+        public RiskFactorDTO() { }
+
         public RiskFactorDTO(RiskFactor riskFactor)
         {
             Id = riskFactor.Id;

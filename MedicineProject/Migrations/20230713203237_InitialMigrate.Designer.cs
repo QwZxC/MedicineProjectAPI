@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MedicineProject.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230711152323_initialMigrate")]
-    partial class initialMigrate
+    [Migration("20230713203237_InitialMigrate")]
+    partial class InitialMigrate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -147,6 +147,9 @@ namespace MedicineProject.Migrations
                     b.Property<int>("IllnesId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("IllnessId")
+                        .HasColumnType("integer");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
@@ -171,6 +174,10 @@ namespace MedicineProject.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("HospitalId");
+
+                    b.HasIndex("IllnessId");
+
+                    b.HasIndex("RiskFactorId");
 
                     b.ToTable("Patient");
                 });
@@ -220,7 +227,7 @@ namespace MedicineProject.Migrations
                         .HasForeignKey("HospitalId");
 
                     b.HasOne("MedicineProject.Models.Speciality", "Speciality")
-                        .WithMany()
+                        .WithMany("Doctors")
                         .HasForeignKey("SpecialityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -233,6 +240,16 @@ namespace MedicineProject.Migrations
                     b.HasOne("MedicineProject.Models.Hospital", null)
                         .WithMany("Patients")
                         .HasForeignKey("HospitalId");
+
+                    b.HasOne("MedicineProject.Models.Illness", null)
+                        .WithMany("Patients")
+                        .HasForeignKey("IllnessId");
+
+                    b.HasOne("MedicineProject.Models.RiskFactor", null)
+                        .WithMany("Patients")
+                        .HasForeignKey("RiskFactorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MedicineProject.Models.Hospital", b =>
@@ -240,6 +257,21 @@ namespace MedicineProject.Migrations
                     b.Navigation("Doctors");
 
                     b.Navigation("Patients");
+                });
+
+            modelBuilder.Entity("MedicineProject.Models.Illness", b =>
+                {
+                    b.Navigation("Patients");
+                });
+
+            modelBuilder.Entity("MedicineProject.Models.RiskFactor", b =>
+                {
+                    b.Navigation("Patients");
+                });
+
+            modelBuilder.Entity("MedicineProject.Models.Speciality", b =>
+                {
+                    b.Navigation("Doctors");
                 });
 #pragma warning restore 612, 618
         }

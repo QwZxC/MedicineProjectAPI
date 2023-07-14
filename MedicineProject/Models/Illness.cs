@@ -5,9 +5,9 @@ namespace MedicineProject.Models
 {
     public class Illness : BaseModel
     {
-        public string Name { get; set; }
-
         public string Description { get; set; }
+
+        public List<Patient> Patients { get; set; } 
 
         public Illness() { }
 

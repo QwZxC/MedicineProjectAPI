@@ -16,7 +16,7 @@ namespace MedicineProject.DTOs
 
         public string Password { get; set; }
 
-        public bool IsActive { get; set; }
+        public string UserToken { get; set; }
 
         [JsonConstructor]
         public UserDTO()

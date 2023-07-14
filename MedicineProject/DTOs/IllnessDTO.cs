@@ -9,6 +9,8 @@ namespace MedicineProject.DTOs
 
         public string Description { get; set; }
 
+        public IllnessDTO() { }
+
         public IllnessDTO(Illness illness)
         {
             Id = illness.Id;

@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MedicineProject.Migrations
 {
     /// <inheritdoc />
-    public partial class initialMigrate : Migration
+    public partial class InitialMigrate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -79,8 +79,8 @@ namespace MedicineProject.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     RiskFactorId = table.Column<int>(type: "integer", nullable: false),
-                    IllnesId = table.Column<int>(type: "integer", nullable: false),
                     HospitalId = table.Column<int>(type: "integer", nullable: true),
+                    IllnessId = table.Column<int>(type: "integer", nullable: true),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Surname = table.Column<string>(type: "text", nullable: false),
                     Patronymic = table.Column<string>(type: "text", nullable: true),
@@ -96,6 +96,17 @@ namespace MedicineProject.Migrations
                         column: x => x.HospitalId,
                         principalTable: "Hospital",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Patient_Illness_IllnessId",
+                        column: x => x.IllnessId,
+                        principalTable: "Illness",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Patient_RiskFactor_RiskFactorId",
+                        column: x => x.RiskFactorId,
+                        principalTable: "RiskFactor",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -143,6 +154,16 @@ namespace MedicineProject.Migrations
                 name: "IX_Patient_HospitalId",
                 table: "Patient",
                 column: "HospitalId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patient_IllnessId",
+                table: "Patient",
+                column: "IllnessId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patient_RiskFactorId",
+                table: "Patient",
+                column: "RiskFactorId");
         }
 
         /// <inheritdoc />
@@ -152,19 +173,19 @@ namespace MedicineProject.Migrations
                 name: "Doctor");
 
             migrationBuilder.DropTable(
-                name: "Illness");
-
-            migrationBuilder.DropTable(
                 name: "Patient");
-
-            migrationBuilder.DropTable(
-                name: "RiskFactor");
 
             migrationBuilder.DropTable(
                 name: "Speciality");
 
             migrationBuilder.DropTable(
                 name: "Hospital");
+
+            migrationBuilder.DropTable(
+                name: "Illness");
+
+            migrationBuilder.DropTable(
+                name: "RiskFactor");
         }
     }
 }

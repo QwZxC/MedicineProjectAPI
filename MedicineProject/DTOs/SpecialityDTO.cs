@@ -7,10 +7,15 @@ namespace MedicineProject.DTOs
     {
         public string Name { get; set; }
 
+        public List<Doctor> Doctors { get; set; }
+
+        public SpecialityDTO() { }
+
         public SpecialityDTO(Speciality speciality)
         {
             Id = speciality.Id;
             Name = speciality.Name;
+            Doctors = speciality.Doctors;
         }
     }
 }

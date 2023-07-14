@@ -5,27 +5,27 @@ namespace MedicineProject.DTOs
 {
     public record PatientDTO : UserDTO
     {
-        public RiskFactor RiskFactor { get; set; }
+        public RiskFactorDTO RiskFactor { get; set; }
 
-        public Illness Illness { get; set; }
-        
+        public IllnessDTO Illness { get; set; }
         
         public int RiskFactorId { get; set; }
 
-        public int IllnesId { get; set; }
+        public int IllnessId { get; set; }
+
+        public PatientDTO() { }
 
         public PatientDTO(Patient patient) : base(patient)
         {
-            RiskFactor = patient.RiskFactor;
-            Illness = patient.Illness;
+            RiskFactor = new RiskFactorDTO(patient.RiskFactor);
+            Illness = new IllnessDTO(patient.Illness);
             RiskFactorId = patient.RiskFactorId;
-            IllnesId = patient.IllnesId;
+            IllnessId = patient.IllnessId;
         }
 
-        [JsonConstructor]
         public PatientDTO(int id, string name, string surname, string patronumic,
-                          string email, string password, bool isActive, 
-                          RiskFactor riskFactor, Illness illness, int riskFactorId, int illnesId)
+                          string email, string password, RiskFactorDTO riskFactor, 
+                          IllnessDTO illness, int riskFactorId, int illnesId)
         { 
             Id = id;
             Name = name;
@@ -33,11 +33,10 @@ namespace MedicineProject.DTOs
             Patronymic = patronumic;
             Email = email;
             Password = password;
-            IsActive = isActive;
             RiskFactor = riskFactor;
             Illness = illness;
             RiskFactorId = riskFactorId;
-            IllnesId = illnesId;
+            IllnessId = illnesId;
         }
     }
 }

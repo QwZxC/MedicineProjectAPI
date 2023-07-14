@@ -23,6 +23,8 @@ namespace MedicineProject.DTOs
 
         public List<Doctor> Doctors { get; set; }
         
+        public HospitalDTO() { }
+
         public HospitalDTO(Hospital hospital)
         {
             Id = hospital.Id;
