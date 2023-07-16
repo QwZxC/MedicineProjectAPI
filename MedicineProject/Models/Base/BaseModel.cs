@@ -2,10 +2,10 @@
 
 namespace MedicineProject.Models.Base
 {
-    public class BaseModel
+    public abstract class BaseModel
     {
         [Key]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         public string Name { get; set; }
     }

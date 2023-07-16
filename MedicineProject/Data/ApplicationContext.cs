@@ -1,9 +1,11 @@
 ﻿using MedicineProject.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace MedicineProject.Context
 {
-    public class ApplicationContext : DbContext
+    public sealed class ApplicationContext : IdentityDbContext<User, IdentityRole<long>, long>
     {
         public DbSet<Doctor> Doctor { get; set; }
 
@@ -17,9 +19,10 @@ namespace MedicineProject.Context
 
         public DbSet<Speciality> Speciality { get;  set; }
 
+
         public ApplicationContext(DbContextOptions<ApplicationContext> options) 
             : base(options) 
-        { 
+        {
         }
     }
 }

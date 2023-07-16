@@ -4,7 +4,7 @@ namespace MedicineProject.DTOs
 {
     public record DoctorDTO : UserDTO
     {
-        public int SpecialityId { get; set; }
+        public long SpecialityId { get; set; }
 
         public Speciality Speciality { get; set; }
 

@@ -11,22 +11,13 @@ namespace MedicineProject.Models
         [NotMapped]
         public Illness Illness { get; set; }
 
-        public int RiskFactorId { get; set; }
+        public long RiskFactorId { get; set; }
 
-        public int IllnessId { get; set; }
+        public long IllnessId { get; set; }
 
         public Patient()
         {
 
-        }
-
-        public Patient(PatientDTO patient) : 
-            base(patient) 
-        {
-            RiskFactor = new RiskFactor(patient.RiskFactor);
-            Illness = new Illness(patient.Illness);
-            RiskFactorId = patient.RiskFactorId;
-            IllnessId = patient.IllnessId;
         }
     }
 }

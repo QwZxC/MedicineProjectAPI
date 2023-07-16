@@ -9,9 +9,9 @@ namespace MedicineProject.DTOs
 
         public IllnessDTO Illness { get; set; }
         
-        public int RiskFactorId { get; set; }
+        public long RiskFactorId { get; set; }
 
-        public int IllnessId { get; set; }
+        public long IllnessId { get; set; }
 
         public PatientDTO() { }
 
@@ -23,9 +23,9 @@ namespace MedicineProject.DTOs
             IllnessId = patient.IllnessId;
         }
 
-        public PatientDTO(int id, string name, string surname, string patronumic,
+        public PatientDTO(long id, string name, string surname, string patronumic,
                           string email, string password, RiskFactorDTO riskFactor, 
-                          IllnessDTO illness, int riskFactorId, int illnesId)
+                          IllnessDTO illness, long riskFactorId, long illnesId)
         { 
             Id = id;
             Name = name;

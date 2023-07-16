@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace MedicineProject.DTOs
 {
-    public abstract record UserDTO : BaseDTO
+    public record UserDTO : BaseDTO
     {
         public string Name { get; set; }
 
@@ -15,6 +15,10 @@ namespace MedicineProject.DTOs
         public string Email { get; set; }
 
         public string Password { get; set; }
+
+        public string Token { get; set; }
+
+        public string RefreshToken { get; set; }
 
         public string UserToken { get; set; }
 

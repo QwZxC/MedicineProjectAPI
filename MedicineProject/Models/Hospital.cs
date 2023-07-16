@@ -9,9 +9,9 @@ namespace MedicineProject.Models
 
         public string Address { get; set; }
 
-        public DateTime StartedTime { get; set; }
+        public TimeOnly StartedTime { get; set; }
 
-        public DateTime EndTime { get; set; }
+        public TimeOnly EndTime { get; set; }
 
         public byte Rating { get; set; }
 

@@ -1,0 +1,51 @@
+version: '3.4'
+
+services:
+  medicineproject:
+    image: ${DOCKER_REGISTRY-}medicineproject
+    build:
+      context: .
+      dockerfile: MedicineProject/Dockerfile
+    ports:
+      - "5000:443"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+  postgres:
+    container_name: "postgresDB"
+    image: postgres:15.3
+    environment:
+      POSTGRES_DB: MedicineProjectDb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 301600
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2G
+    volumes:
+    - .:/MedicineProject.backup
+    networks:
+      - postgres
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: secret
+      PGADMIN_LISTEN_PORT: 80
+    ports:
+      - "8000:80"
+    networks:
+      - postgres
+
+networks:
+  postgres:
+    driver: bridge
