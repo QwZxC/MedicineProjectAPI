@@ -18,7 +18,7 @@ services:
     container_name: "postgresDB"
     image: postgres:15.3
     environment:
-      POSTGRES_DB: DenisDb
+      POSTGRES_DB: MedicineProjectDb
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 301600
       PGDATA: /var/lib/postgresql/data/pgdata
@@ -30,7 +30,7 @@ services:
           cpus: '1'
           memory: 2G
     volumes:
-    - .:/AdmissionsCommittee.backup
+    - .:/MedicineProject.backup
     networks:
       - postgres
 

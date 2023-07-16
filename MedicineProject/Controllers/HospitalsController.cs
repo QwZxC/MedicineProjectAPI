@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MedicineProject.Context;
 using MedicineProject.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,7 @@ namespace MedicineProject.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("GetHospitals")]
         public async Task<ActionResult> GetAllHospitals(string name = "", int minRating = 0, int maxRating = 5)
         {

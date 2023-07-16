@@ -5,7 +5,7 @@ namespace MedicineProject.DTOs.Base
     public record BaseDTO
     {
         [Key]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         public string Name { get; set; }
     }
