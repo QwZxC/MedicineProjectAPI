@@ -1,15 +1,11 @@
 ﻿using MedicineProject.Context;
 using MedicineProject.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MedicineProject.Services;
 using AutoMapper;
-using MedicineProject.DTOs;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using MedicineProject.Extensions;
 using MedicineProject.DTOs.Identity;
 using System.IdentityModel.Tokens.Jwt;
@@ -19,7 +15,7 @@ namespace MedicineProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccoutsController : ControllerBase
+    public class AccountsController : ControllerBase
     {
         private readonly UserManager<User> userManager;
         private readonly ApplicationContext context;
@@ -27,7 +23,7 @@ namespace MedicineProject.Controllers
         private readonly IConfiguration configuration;
         private readonly IMapper mapper;
 
-        public AccoutsController(UserManager<User> userManager, ApplicationContext context, ITokenService tokenService, 
+        public AccountsController(UserManager<User> userManager, ApplicationContext context, ITokenService tokenService, 
                                  IConfiguration configuration)
         {
             this.userManager = userManager;
