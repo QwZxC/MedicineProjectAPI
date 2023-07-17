@@ -112,7 +112,7 @@ namespace MedicineProject.Controllers
 
             if (findUser == null) 
             {
-                throw new Exception($"User {request.Email} not found");
+                NotFound($"User {request.Email} not found");
             } 
 
             await userManager.AddToRoleAsync(findUser, request.Role);
