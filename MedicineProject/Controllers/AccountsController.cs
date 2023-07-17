@@ -115,7 +115,7 @@ namespace MedicineProject.Controllers
                 throw new Exception($"User {request.Email} not found");
             } 
 
-            await userManager.AddToRoleAsync(findUser, RoleConsts.Patient);
+            await userManager.AddToRoleAsync(findUser, request.Role);
 
             return await Authenticate(new AuthRequest
             {

@@ -33,5 +33,8 @@ namespace MedicineProject.DTOs.Identity
 
         [Display(Name = "Отчество")]
         public string? MiddleName { get; set; }
+
+        [Display(Name = "Роль")]
+        public string Role { get; set; }
     }
 }
