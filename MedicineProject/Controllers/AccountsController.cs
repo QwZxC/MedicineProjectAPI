@@ -40,31 +40,31 @@ namespace MedicineProject.Controllers
                 return BadRequest(ModelState);
             }
 
-            var managedUser = await userManager.FindByEmailAsync(request.Email);
+            User? managedUser = await userManager.FindByEmailAsync(request.Email);
 
             if (managedUser == null)
             {
-                return BadRequest("Bad credentials");
+                return BadRequest("Нет пользователя с данной почтой");
             }
 
-            var isPasswordValid = await userManager.CheckPasswordAsync(managedUser, request.Password);
+            bool isPasswordValid = await userManager.CheckPasswordAsync(managedUser, request.Password);
 
             if (!isPasswordValid)
             {
-                return BadRequest("Bad credentials");
+                return BadRequest("Не верный пароль");
             }
 
-            var user = context.Users.FirstOrDefault(u => u.Email == request.Email);
+            User? user = await context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
 
             if (user is null)
             {
                 return Unauthorized();
             }
 
-            var roleIds = await context.UserRoles.Where(r => r.UserId == user.Id).Select(x => x.RoleId).ToListAsync();
-            var roles = context.Roles.Where(x => roleIds.Contains(x.Id)).ToList();
+            List<long> roleIds = await context.UserRoles.Where(r => r.UserId == user.Id).Select(x => x.RoleId).ToListAsync();
+            List<IdentityRole<long>> roles = context.Roles.Where(x => roleIds.Contains(x.Id)).ToList();
 
-            var accessToken = tokenService.CreateToken(user, roles);
+            string accessToken = tokenService.CreateToken(user, roles);
             user.RefreshToken = configuration.GenerateRefreshToken();
             user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(configuration.GetSection("Jwt:RefreshTokenValidityInDays").Get<int>());
 
@@ -86,9 +86,9 @@ namespace MedicineProject.Controllers
             if (!ModelState.IsValid) 
             {
                 return BadRequest(request);
-            } 
+            }
 
-            var user = new User
+            User user = new User
             {
                 Name = request.FirstName,
                 Surname = request.LastName,
@@ -96,7 +96,7 @@ namespace MedicineProject.Controllers
                 Email = request.Email,
                 UserName = request.Email,
             };
-            var result = await userManager.CreateAsync(user, request.Password);
+            IdentityResult result = await userManager.CreateAsync(user, request.Password);
 
             foreach (var error in result.Errors)
             {
@@ -108,8 +108,7 @@ namespace MedicineProject.Controllers
                 return BadRequest(request);
             } 
 
-            var findUser = await context.Users.FirstOrDefaultAsync(x => x.Email == request.Email);
-
+            User? findUser = await context.Users.FirstOrDefaultAsync(x => x.Email == request.Email);
             if (findUser == null) 
             {
                 NotFound($"User {request.Email} not found");
@@ -130,7 +129,7 @@ namespace MedicineProject.Controllers
         {
             if (tokenModel is null)
             {
-                return BadRequest("Invalid client request");
+                return BadRequest("Не правильный токен");
             }
 
             string? accessToken = tokenModel.AccessToken;
@@ -139,7 +138,7 @@ namespace MedicineProject.Controllers
 
             if (principal == null)
             {
-                return BadRequest("Invalid access token or refresh token");
+                return BadRequest("неверный токен доступа или обновления");
             }
 
             string? username = principal.Identity!.Name;
@@ -147,7 +146,7 @@ namespace MedicineProject.Controllers
 
             if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
             {
-                return BadRequest("Invalid access token or refresh token");
+                return BadRequest("неверный токен доступа или обновления");
             }
 
             JwtSecurityToken newAccessToken = configuration.CreateToken(principal.Claims.ToList());
@@ -185,8 +184,8 @@ namespace MedicineProject.Controllers
         [Route("revoke-all")]
         public async Task<IActionResult> RevokeAll()
         {
-            var users = userManager.Users.ToList();
-            foreach (var user in users)
+            List<User> users = userManager.Users.ToList();
+            foreach (User user in users)
             {
                 user.RefreshToken = null;
                 await userManager.UpdateAsync(user);

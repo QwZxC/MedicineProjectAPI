@@ -13,6 +13,8 @@ namespace MedicineProject.Models
 
         public TimeOnly EndTime { get; set; }
 
+        public string Contacts { get; set; }
+
         public byte Rating { get; set; }
 
         public string Email { get; set; }
@@ -34,6 +36,7 @@ namespace MedicineProject.Models
             Email = hospital.Email;
             Patients = hospital.Patients;
             Doctors = hospital.Doctors;
+            Contacts = hospital.Contacts;
         }
     }
 }

@@ -15,6 +15,8 @@ namespace MedicineProject.DTOs
 
         public TimeOnly EndTime { get; set; }
 
+        public string Contacts { get; set; }
+
         public byte Rating { get; set; }
 
         public string Email { get; set; }
