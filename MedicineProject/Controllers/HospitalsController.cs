@@ -21,7 +21,6 @@ namespace MedicineProject.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         [Route("GetHospitals")]
         public async Task<ActionResult> GetAllHospitals(string name = "", int minRating = 0, int maxRating = 5)
         {
@@ -34,6 +33,24 @@ namespace MedicineProject.Controllers
                }
             });
             return Ok(hospitals);
+        }
+
+        [HttpGet]
+        [Route("GetHospitals/{id:int}")]
+        public async Task<ActionResult> GetHospitalById(long id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest("Невозможный id");
+            }
+            HospitalDTO hospital = mapper.Map<HospitalDTO>(await context.Hospital.FindAsync(id));
+            
+            if (hospital == null)
+            {
+                return NotFound("Такой больницы нет");
+            }
+
+            return Ok(hospital);
         }
     }
 }
