@@ -24,7 +24,7 @@ namespace MedicineProject.Controllers
         private readonly IMapper mapper;
 
         public AccountsController(UserManager<User> userManager, ApplicationContext context, ITokenService tokenService, 
-                                 IConfiguration configuration)
+                                  IConfiguration configuration)
         {
             this.userManager = userManager;
             this.context = context;
@@ -75,7 +75,8 @@ namespace MedicineProject.Controllers
                 Username = user.UserName!,
                 Email = user.Email!,
                 Token = accessToken,
-                RefreshToken = user.RefreshToken
+                RefreshToken = user.RefreshToken,
+                Role = request.Role
             });
         }
 
@@ -111,7 +112,7 @@ namespace MedicineProject.Controllers
             User? findUser = await context.Users.FirstOrDefaultAsync(x => x.Email == request.Email);
             if (findUser == null) 
             {
-                NotFound($"User {request.Email} not found");
+                NotFound($"Пользователь {request.Email} не найден");
             } 
 
             await userManager.AddToRoleAsync(findUser, request.Role);
@@ -119,7 +120,9 @@ namespace MedicineProject.Controllers
             return await Authenticate(new AuthRequest
             {
                 Email = request.Email,
-                Password = request.Password
+                Password = request.Password,
+                Role = request.Role
+               
             });
         }
 
