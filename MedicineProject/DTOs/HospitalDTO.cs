@@ -24,7 +24,9 @@ namespace MedicineProject.DTOs
         public List<Patient> Patients { get; set; }
 
         public List<Doctor> Doctors { get; set; }
-        
+
+        public long CityId { get; set; }
+
         public HospitalDTO() { }
 
         public HospitalDTO(Hospital hospital)
@@ -39,6 +41,7 @@ namespace MedicineProject.DTOs
             Email = hospital.Email;
             Patients = hospital.Patients;
             Doctors = hospital.Doctors;
+            CityId = hospital.CityId;
         }
     }
 }

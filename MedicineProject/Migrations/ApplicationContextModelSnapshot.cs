@@ -22,6 +22,45 @@ namespace MedicineProject.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("MedicineProject.Models.City", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("RegionId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RegionId");
+
+                    b.ToTable("City");
+                });
+
+            modelBuilder.Entity("MedicineProject.Models.County", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("County");
+                });
+
             modelBuilder.Entity("MedicineProject.Models.Hospital", b =>
                 {
                     b.Property<long>("Id")
@@ -33,6 +72,9 @@ namespace MedicineProject.Migrations
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<long>("CityId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Contacts")
                         .IsRequired()
@@ -61,6 +103,8 @@ namespace MedicineProject.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CityId");
+
                     b.ToTable("Hospital");
                 });
 
@@ -83,6 +127,28 @@ namespace MedicineProject.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Illness");
+                });
+
+            modelBuilder.Entity("MedicineProject.Models.Region", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CountyId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountyId");
+
+                    b.ToTable("Region");
                 });
 
             modelBuilder.Entity("MedicineProject.Models.RiskFactor", b =>
@@ -392,6 +458,39 @@ namespace MedicineProject.Migrations
                     b.HasDiscriminator().HasValue("Patient");
                 });
 
+            modelBuilder.Entity("MedicineProject.Models.City", b =>
+                {
+                    b.HasOne("MedicineProject.Models.Region", "Region")
+                        .WithMany("Cities")
+                        .HasForeignKey("RegionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Region");
+                });
+
+            modelBuilder.Entity("MedicineProject.Models.Hospital", b =>
+                {
+                    b.HasOne("MedicineProject.Models.City", "City")
+                        .WithMany("Hospitals")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("City");
+                });
+
+            modelBuilder.Entity("MedicineProject.Models.Region", b =>
+                {
+                    b.HasOne("MedicineProject.Models.County", "County")
+                        .WithMany("Regions")
+                        .HasForeignKey("CountyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("County");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<long>", null)
@@ -477,6 +576,16 @@ namespace MedicineProject.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("MedicineProject.Models.City", b =>
+                {
+                    b.Navigation("Hospitals");
+                });
+
+            modelBuilder.Entity("MedicineProject.Models.County", b =>
+                {
+                    b.Navigation("Regions");
+                });
+
             modelBuilder.Entity("MedicineProject.Models.Hospital", b =>
                 {
                     b.Navigation("Doctors");
@@ -487,6 +596,11 @@ namespace MedicineProject.Migrations
             modelBuilder.Entity("MedicineProject.Models.Illness", b =>
                 {
                     b.Navigation("Patients");
+                });
+
+            modelBuilder.Entity("MedicineProject.Models.Region", b =>
+                {
+                    b.Navigation("Cities");
                 });
 
             modelBuilder.Entity("MedicineProject.Models.RiskFactor", b =>

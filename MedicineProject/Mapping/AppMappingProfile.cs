@@ -14,6 +14,9 @@ namespace MedicineProject.Mapping
             CreateMap<Hospital, HospitalDTO>().ReverseMap();
             CreateMap<Speciality, SpecialityDTO>().ReverseMap();
             CreateMap<Doctor, DoctorDTO>().ReverseMap();
+            CreateMap<Region, RegionDTO>().ReverseMap();
+            CreateMap<County, CountyDTO>().ReverseMap();
+            CreateMap<City, CityDTO>().ReverseMap();
         }
     }
 }

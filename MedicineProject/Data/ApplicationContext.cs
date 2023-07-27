@@ -19,6 +19,11 @@ namespace MedicineProject.Context
 
         public DbSet<Speciality> Speciality { get;  set; }
 
+        public DbSet<City> City { get; set; }
+
+        public DbSet<Region> Region { get; set; }
+
+        public DbSet<County> County { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) 
             : base(options) 

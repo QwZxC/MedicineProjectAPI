@@ -23,6 +23,10 @@ namespace MedicineProject.Models
 
         public List<Doctor> Doctors { get; set; }
 
+        public long CityId { get; set; }
+
+        public City City { get; set; }
+
         public Hospital() { }
 
         public Hospital(HospitalDTO hospital)
@@ -37,6 +41,7 @@ namespace MedicineProject.Models
             Patients = hospital.Patients;
             Doctors = hospital.Doctors;
             Contacts = hospital.Contacts;
+            CityId = hospital.CityId;
         }
     }
 }
