@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using MedicineProject.Context;
 using MedicineProject.DTOs;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+using MedicineProject.Filters;
+using MedicineProject.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace MedicineProject.Controllers
 {
@@ -22,12 +23,19 @@ namespace MedicineProject.Controllers
 
         [HttpGet]
         [Route("GetHospitals")]
-        public async Task<ActionResult> GetAllHospitals(string name = "", int minRating = 0, int maxRating = 5)
+        public async Task<ActionResult<List<HospitalDTO>>> GetAllHospitals([FromQuery] HospitalFilter filter)
         {
             List<HospitalDTO> hospitals = new List<HospitalDTO>();
-            context.Hospital.ToList().ForEach(hospital =>
+            
+            City targetCity = await context.City.FindAsync(filter.CityId);
+            if (targetCity == null) 
             {
-               if (hospital.Name.Contains(name) && hospital.Rating >= minRating && hospital.Rating <= maxRating)
+                return BadRequest("Неверный городо");
+            }
+            
+            await context.Hospital.ForEachAsync(hospital =>
+            {
+               if (hospital.Name.Contains(filter.Name) && hospital.Rating >= filter.MinRating && hospital.Rating <= filter.MaxRating && hospital.CityId == targetCity.Id)
                {
                     hospitals.Add(mapper.Map<HospitalDTO>(hospital));
                }

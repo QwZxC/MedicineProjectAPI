@@ -18,35 +18,28 @@ namespace MedicineProject.Controllers
         {
             this.context = context;
             this.mapper = mapper;
-            LoadCities();
-            LoadRegion();
         }
 
         [HttpGet("GetPlaces")]
         public async Task<ActionResult<List<RegionDTO>>> GetPlaces()
         {
+            LoadCities();
+            LoadRegion();
             List<CountyDTO> counties = await context.County.Select(region => mapper.Map<CountyDTO>(region)).ToListAsync();
             counties.ForEach(county =>
             {
-                county.RegionDTOs = MapObjects<Region, RegionDTO>(context.County.FindAsync(county.Id).Result.Regions);
-                county.RegionDTOs.ForEach(region =>
-                {
-                    region.Cities = MapObjects<City, CityDTO>(context.Region.FindAsync(region.Id).Result.Cities);
-                    region.Cities.ForEach(city => city.Hospitals = MapObjects<Hospital, HospitalDTO>(context.City.Include(city => city.Hospitals)
-                                                                            .FirstOrDefaultAsync(dbCity => dbCity.Id == city.Id).Result.Hospitals));
-                });
+                county.RegionDTOs = MapObjects<Region, RegionDTO>(context.County.Find(county.Id).Regions);
+                county.RegionDTOs.ForEach(region => region.Cities = MapObjects<City, CityDTO>(context.Region.Find(region.Id).Cities));
             });
             return Ok(counties);
         }
 
-
-        private List<DTO> MapObjects<original, DTO>(List<original> items)
+        private List<DTO> MapObjects<ORIGINAL, DTO>(List<ORIGINAL> items)
         {
             List<DTO> DTOs = new List<DTO>();
-            items.ForEach(region => DTOs.Add(mapper.Map<DTO>(region)));
+            items.ForEach(item => DTOs.Add(mapper.Map<DTO>(item)));
             return DTOs;
         }
-
 
         private void LoadRegion()
         {
@@ -67,3 +60,4 @@ namespace MedicineProject.Controllers
         }
     }
 }
+
