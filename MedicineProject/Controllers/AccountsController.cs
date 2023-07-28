@@ -10,6 +10,7 @@ using MedicineProject.Extensions;
 using MedicineProject.DTOs.Identity;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text;
 
 namespace MedicineProject.Controllers
 {
@@ -106,7 +107,9 @@ namespace MedicineProject.Controllers
 
             if (!result.Succeeded) 
             {
-                return BadRequest(request);
+                StringBuilder errors = new StringBuilder();
+                result.Errors.ToList().ForEach(error => errors.AppendLine(error.Description.ToString()));
+                return BadRequest(errors.ToString());
             } 
 
             User? findUser = await context.Users.FirstOrDefaultAsync(x => x.Email == request.Email);
