@@ -21,7 +21,7 @@ services:
       POSTGRES_DB: MedicineProjectDb
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 301600
-      PGDATA: /var/lib/postgresql/data/pgdata
+      PGDATA: /data/pgdata
     ports:
       - "5432:5432"
     deploy:
@@ -30,7 +30,7 @@ services:
           cpus: '1'
           memory: 2G
     volumes:
-    - .:/MedicineProject.backup
+    - .:/docker-entrypoint-initdb.d
     networks:
       - postgres
 
