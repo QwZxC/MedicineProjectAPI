@@ -4,6 +4,7 @@ using MedicineProject.DTOs;
 using MedicineProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace MedicineProject.Controllers
 {
@@ -13,24 +14,35 @@ namespace MedicineProject.Controllers
     {
         private readonly ApplicationContext context;
         private readonly IMapper mapper;
+        private readonly IMemoryCache cache;
 
-        public PlacesController(ApplicationContext context, IMapper mapper)
+        public PlacesController(ApplicationContext context, IMapper mapper, IMemoryCache memoryCache)
         {
             this.context = context;
             this.mapper = mapper;
+            cache = memoryCache;
         }
 
         [HttpGet("GetPlaces")]
         public async Task<ActionResult<List<RegionDTO>>> GetPlaces()
         {
+            List<CountyDTO> counties;
+            if (cache.TryGetValue(0, out counties))
+            {
+                return Ok(counties);
+            }
             LoadCities();
             LoadRegion();
-            List<CountyDTO> counties = await context.County.Select(region => mapper.Map<CountyDTO>(region)).ToListAsync();
+
+            counties = await context.County.Select(region => mapper.Map<CountyDTO>(region)).ToListAsync();
             counties.ForEach(county =>
             {
                 county.RegionDTOs = MapObjects<Region, RegionDTO>(context.County.Find(county.Id).Regions);
                 county.RegionDTOs.ForEach(region => region.Cities = MapObjects<City, CityDTO>(context.Region.Find(region.Id).Cities));
             });
+
+            cache.Set(0,counties);
+
             return Ok(counties);
         }
 
@@ -54,8 +66,7 @@ namespace MedicineProject.Controllers
         {
             context.Region.ToList().ForEach(region =>
             {
-                List<City> regions = context.City.ToList().FindAll(city => region.Id == city.RegionId);
-                region.Cities.AddRange(regions);
+                region.Cities = context.City.ToList().FindAll(city => city.RegionId == region.Id);
             });
         }
     }
