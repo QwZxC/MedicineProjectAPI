@@ -85,7 +85,7 @@ namespace MedicineProject
 
             var app = builder.Build();
 
-            app.UseCors(builder => builder.AllowAnyOrigin());
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
             if (app.Environment.IsDevelopment())
             {
