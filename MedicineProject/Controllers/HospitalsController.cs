@@ -33,7 +33,7 @@ namespace MedicineProject.Controllers
             City targetCity = await context.City.FindAsync(filter.CityId);
             if (targetCity == null) 
             {
-                return BadRequest("Неверный городо");
+                return BadRequest("Неверный город.");
             }
             
             if (filter.Name == string.Empty && filter.MinRating == 0 && filter.MaxRating == 5 && cache.TryGetValue(filter.CityId, out hospitals))
@@ -60,13 +60,13 @@ namespace MedicineProject.Controllers
         {
             if (id <= 0)
             {
-                return BadRequest("Невозможный id");
+                return BadRequest("Невозможный id.");
             }
             HospitalDTO hospital = mapper.Map<HospitalDTO>(await context.Hospital.FindAsync(id));
             
             if (hospital == null)
             {
-                return NotFound("Такой больницы нет");
+                return NotFound("Такой больницы нет.");
             }
 
             return Ok(hospital);

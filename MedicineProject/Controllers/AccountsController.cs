@@ -90,6 +90,13 @@ namespace MedicineProject.Controllers
                 return BadRequest(request);
             }
 
+            IdentityRole<long> role = await context.Roles.FirstOrDefaultAsync(role => request.Role.Normalize() == role.NormalizedName);
+
+            if (role == null)
+            {
+                return BadRequest("Неверная роль");
+            }
+
             User user = new User
             {
                 Name = request.FirstName,
@@ -125,7 +132,6 @@ namespace MedicineProject.Controllers
                 Email = request.Email,
                 Password = request.Password,
                 Role = request.Role
-               
             });
         }
 
