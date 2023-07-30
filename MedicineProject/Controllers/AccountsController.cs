@@ -90,7 +90,7 @@ namespace MedicineProject.Controllers
                 return BadRequest(request);
             }
 
-            IdentityRole<long> role = await context.Roles.FirstOrDefaultAsync(role => request.Role.Normalize() == role.NormalizedName);
+            IdentityRole<long> role = await context.Roles.FirstOrDefaultAsync(role => request.Role == role.Name);
 
             if (role == null)
             {
@@ -156,7 +156,7 @@ namespace MedicineProject.Controllers
             string? username = principal.Identity!.Name;
             User? user = await userManager.FindByNameAsync(username!);
 
-            if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
+            if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime >= DateTime.UtcNow)
             {
                 return BadRequest("неверный токен доступа или обновления");
             }
