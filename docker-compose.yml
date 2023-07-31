@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   medicineproject:
-    image: yantar/medicineproject
+    image: yantar/medicineproject:dev
     build:
       context: .
       dockerfile: MedicineProject/Dockerfile
