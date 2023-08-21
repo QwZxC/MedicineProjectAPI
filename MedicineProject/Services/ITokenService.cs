@@ -5,6 +5,6 @@ namespace MedicineProject.Services
 {
     public interface ITokenService
     {
-        string CreateToken(User user, List<IdentityRole<long>> role);
+        string CreateToken(Patient user, List<IdentityRole<long>> role);
     }
 }

@@ -18,7 +18,7 @@ namespace MedicineProject
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddDbContext<ApplicationContext>(
+            builder.Services.AddDbContext<WebMobileContext>(
                 options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -50,10 +50,10 @@ namespace MedicineProject
                         (JwtBearerDefaults.AuthenticationScheme)
                     .RequireAuthenticatedUser()
                     .Build());
-            builder.Services.AddIdentity<User, IdentityRole<long>>()
-                .AddEntityFrameworkStores<ApplicationContext>()
-                .AddUserManager<UserManager<User>>()
-                .AddSignInManager<SignInManager<User>>();
+            builder.Services.AddIdentity<Patient, IdentityRole<long>>()
+                .AddEntityFrameworkStores<WebMobileContext>()
+                .AddUserManager<UserManager<Patient>>()
+                .AddSignInManager<SignInManager<Patient>>();
 
             builder.Services.AddSwaggerGen(option =>
             {
@@ -83,7 +83,7 @@ namespace MedicineProject
                 });
             });
 
-            var app = builder.Build();
+            WebApplication app = builder.Build();
 
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 

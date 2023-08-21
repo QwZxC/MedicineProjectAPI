@@ -1,7 +1,7 @@
 ﻿using MedicineProject.DTOs;
 using MedicineProject.Models.Base;
 
-namespace MedicineProject.Models
+namespace MedicineProject.Models.WebMobileModels
 {
     public class Region : BaseModel
     {
@@ -12,7 +12,7 @@ namespace MedicineProject.Models
         public List<City> Cities { get; set; } = new List<City>();
 
         public Region() { }
-        
+
         public Region(RegionDTO region)
         {
             Name = region.Name;

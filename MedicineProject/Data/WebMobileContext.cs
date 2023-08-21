@@ -1,21 +1,16 @@
 ﻿using MedicineProject.Models;
+using MedicineProject.Models.WebMobileModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace MedicineProject.Context
 {
-    public sealed class ApplicationContext : IdentityDbContext<User, IdentityRole<long>, long>
+    public sealed class WebMobileContext : IdentityDbContext<Models.Patient, IdentityRole<long>, long>
     {
-        public DbSet<Doctor> Doctor { get; set; }
+        public DbSet<Models.WebMobileModels.Doctor> Doctor { get; set; }
 
         public DbSet<Hospital> Hospital { get; set; }
-
-        public DbSet<Illness> Illness { get; set; }
-
-        public DbSet<Patient> Patient { get; set; }
-
-        public DbSet<RiskFactor> RiskFactor { get; set; }
 
         public DbSet<Speciality> Speciality { get;  set; }
 
@@ -25,7 +20,11 @@ namespace MedicineProject.Context
 
         public DbSet<County> County { get; set; }
 
-        public ApplicationContext(DbContextOptions<ApplicationContext> options) 
+        public DbSet<Appointment> Appointment { get; set; }
+
+        public DbSet<Models.Patient> Patient { get; set; }
+
+        public WebMobileContext(DbContextOptions<WebMobileContext> options) 
             : base(options) 
         {
         }

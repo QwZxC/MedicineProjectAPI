@@ -15,7 +15,7 @@ namespace MedicineProject.Services
             this.configuration = configuration;
         }
 
-        public string CreateToken(User user, List<IdentityRole<long>> roles)
+        public string CreateToken(Patient user, List<IdentityRole<long>> roles)
         {
             var token = user
                 .CreateClaims(roles)

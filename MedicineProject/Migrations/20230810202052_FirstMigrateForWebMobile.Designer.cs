@@ -3,6 +3,7 @@ using System;
 using MedicineProject.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,10 +11,12 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace MedicineProject.Migrations
 {
-    [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(WebMobileContext))]
+    [Migration("20230810202052_FirstMigrateForWebMobile")]
+    partial class FirstMigrateForWebMobile
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,174 +25,7 @@ namespace MedicineProject.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("MedicineProject.Models.City", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<long>("RegionId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RegionId");
-
-                    b.ToTable("City");
-                });
-
-            modelBuilder.Entity("MedicineProject.Models.County", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("County");
-                });
-
-            modelBuilder.Entity("MedicineProject.Models.Hospital", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<long>("CityId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Contacts")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<TimeOnly>("EndTime")
-                        .HasColumnType("time without time zone");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<byte>("Rating")
-                        .HasColumnType("smallint");
-
-                    b.Property<TimeOnly>("StartedTime")
-                        .HasColumnType("time without time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CityId");
-
-                    b.ToTable("Hospital");
-                });
-
-            modelBuilder.Entity("MedicineProject.Models.Illness", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Illness");
-                });
-
-            modelBuilder.Entity("MedicineProject.Models.Region", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<long>("CountyId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CountyId");
-
-                    b.ToTable("Region");
-                });
-
-            modelBuilder.Entity("MedicineProject.Models.RiskFactor", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RiskFactor");
-                });
-
-            modelBuilder.Entity("MedicineProject.Models.Speciality", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Speciality");
-                });
-
-            modelBuilder.Entity("MedicineProject.Models.User", b =>
+            modelBuilder.Entity("MedicineProject.Models.Patient", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -202,10 +38,6 @@ namespace MedicineProject.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Email")
@@ -275,10 +107,224 @@ namespace MedicineProject.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
+            modelBuilder.Entity("MedicineProject.Models.WebMobileModels.Appointment", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
 
-                    b.UseTphMappingStrategy();
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("DoctorId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsOpen")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("PatientId")
+                        .HasColumnType("bigint");
+
+                    b.Property<TimeOnly>("Time")
+                        .HasColumnType("time without time zone");
+
+                    b.Property<long>("TypeId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.HasIndex("PatientId");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("Appointment");
+                });
+
+            modelBuilder.Entity("MedicineProject.Models.WebMobileModels.City", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("RegionId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RegionId");
+
+                    b.ToTable("City");
+                });
+
+            modelBuilder.Entity("MedicineProject.Models.WebMobileModels.County", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("County");
+                });
+
+            modelBuilder.Entity("MedicineProject.Models.WebMobileModels.Doctor", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("HospitalId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Patronymic")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("SpecialityId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HospitalId");
+
+                    b.HasIndex("SpecialityId");
+
+                    b.ToTable("Doctor");
+                });
+
+            modelBuilder.Entity("MedicineProject.Models.WebMobileModels.Hospital", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("CityId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Contacts")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<TimeOnly>("EndTime")
+                        .HasColumnType("time without time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<byte>("Rating")
+                        .HasColumnType("smallint");
+
+                    b.Property<TimeOnly>("StartedTime")
+                        .HasColumnType("time without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CityId");
+
+                    b.ToTable("Hospital");
+                });
+
+            modelBuilder.Entity("MedicineProject.Models.WebMobileModels.Region", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CountyId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountyId");
+
+                    b.ToTable("Region");
+                });
+
+            modelBuilder.Entity("MedicineProject.Models.WebMobileModels.Speciality", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Speciality");
+                });
+
+            modelBuilder.Entity("MedicineProject.Models.WebMobileModels.Type", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Type");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<long>", b =>
@@ -413,54 +459,36 @@ namespace MedicineProject.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("MedicineProject.Models.Doctor", b =>
+            modelBuilder.Entity("MedicineProject.Models.WebMobileModels.Appointment", b =>
                 {
-                    b.HasBaseType("MedicineProject.Models.User");
+                    b.HasOne("MedicineProject.Models.WebMobileModels.Doctor", "Doctor")
+                        .WithMany("Appointments")
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<long?>("HospitalId")
-                        .HasColumnType("bigint");
+                    b.HasOne("MedicineProject.Models.Patient", "Patient")
+                        .WithMany("Appointments")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<long>("SpecialityId")
-                        .HasColumnType("bigint");
+                    b.HasOne("MedicineProject.Models.WebMobileModels.Type", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasIndex("HospitalId");
+                    b.Navigation("Doctor");
 
-                    b.HasIndex("SpecialityId");
+                    b.Navigation("Patient");
 
-                    b.ToTable("AspNetUsers", t =>
-                        {
-                            t.Property("HospitalId")
-                                .HasColumnName("Doctor_HospitalId");
-                        });
-
-                    b.HasDiscriminator().HasValue("Doctor");
+                    b.Navigation("Type");
                 });
 
-            modelBuilder.Entity("MedicineProject.Models.Patient", b =>
+            modelBuilder.Entity("MedicineProject.Models.WebMobileModels.City", b =>
                 {
-                    b.HasBaseType("MedicineProject.Models.User");
-
-                    b.Property<long?>("HospitalId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("IllnessId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("RiskFactorId")
-                        .HasColumnType("bigint");
-
-                    b.HasIndex("HospitalId");
-
-                    b.HasIndex("IllnessId");
-
-                    b.HasIndex("RiskFactorId");
-
-                    b.HasDiscriminator().HasValue("Patient");
-                });
-
-            modelBuilder.Entity("MedicineProject.Models.City", b =>
-                {
-                    b.HasOne("MedicineProject.Models.Region", "Region")
+                    b.HasOne("MedicineProject.Models.WebMobileModels.Region", "Region")
                         .WithMany("Cities")
                         .HasForeignKey("RegionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -469,9 +497,28 @@ namespace MedicineProject.Migrations
                     b.Navigation("Region");
                 });
 
-            modelBuilder.Entity("MedicineProject.Models.Hospital", b =>
+            modelBuilder.Entity("MedicineProject.Models.WebMobileModels.Doctor", b =>
                 {
-                    b.HasOne("MedicineProject.Models.City", "City")
+                    b.HasOne("MedicineProject.Models.WebMobileModels.Hospital", "Hospital")
+                        .WithMany("Doctors")
+                        .HasForeignKey("HospitalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MedicineProject.Models.WebMobileModels.Speciality", "Speciality")
+                        .WithMany("Doctors")
+                        .HasForeignKey("SpecialityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Hospital");
+
+                    b.Navigation("Speciality");
+                });
+
+            modelBuilder.Entity("MedicineProject.Models.WebMobileModels.Hospital", b =>
+                {
+                    b.HasOne("MedicineProject.Models.WebMobileModels.City", "City")
                         .WithMany("Hospitals")
                         .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -480,9 +527,9 @@ namespace MedicineProject.Migrations
                     b.Navigation("City");
                 });
 
-            modelBuilder.Entity("MedicineProject.Models.Region", b =>
+            modelBuilder.Entity("MedicineProject.Models.WebMobileModels.Region", b =>
                 {
-                    b.HasOne("MedicineProject.Models.County", "County")
+                    b.HasOne("MedicineProject.Models.WebMobileModels.County", "County")
                         .WithMany("Regions")
                         .HasForeignKey("CountyId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -502,7 +549,7 @@ namespace MedicineProject.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<long>", b =>
                 {
-                    b.HasOne("MedicineProject.Models.User", null)
+                    b.HasOne("MedicineProject.Models.Patient", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -511,7 +558,7 @@ namespace MedicineProject.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<long>", b =>
                 {
-                    b.HasOne("MedicineProject.Models.User", null)
+                    b.HasOne("MedicineProject.Models.Patient", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -526,7 +573,7 @@ namespace MedicineProject.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MedicineProject.Models.User", null)
+                    b.HasOne("MedicineProject.Models.Patient", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -535,80 +582,44 @@ namespace MedicineProject.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<long>", b =>
                 {
-                    b.HasOne("MedicineProject.Models.User", null)
+                    b.HasOne("MedicineProject.Models.Patient", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MedicineProject.Models.Doctor", b =>
-                {
-                    b.HasOne("MedicineProject.Models.Hospital", null)
-                        .WithMany("Doctors")
-                        .HasForeignKey("HospitalId");
-
-                    b.HasOne("MedicineProject.Models.Speciality", "Speciality")
-                        .WithMany("Doctors")
-                        .HasForeignKey("SpecialityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Speciality");
-                });
-
             modelBuilder.Entity("MedicineProject.Models.Patient", b =>
                 {
-                    b.HasOne("MedicineProject.Models.Hospital", null)
-                        .WithMany("Patients")
-                        .HasForeignKey("HospitalId");
-
-                    b.HasOne("MedicineProject.Models.Illness", null)
-                        .WithMany("Patients")
-                        .HasForeignKey("IllnessId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MedicineProject.Models.RiskFactor", null)
-                        .WithMany("Patients")
-                        .HasForeignKey("RiskFactorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Appointments");
                 });
 
-            modelBuilder.Entity("MedicineProject.Models.City", b =>
+            modelBuilder.Entity("MedicineProject.Models.WebMobileModels.City", b =>
                 {
                     b.Navigation("Hospitals");
                 });
 
-            modelBuilder.Entity("MedicineProject.Models.County", b =>
+            modelBuilder.Entity("MedicineProject.Models.WebMobileModels.County", b =>
                 {
                     b.Navigation("Regions");
                 });
 
-            modelBuilder.Entity("MedicineProject.Models.Hospital", b =>
+            modelBuilder.Entity("MedicineProject.Models.WebMobileModels.Doctor", b =>
+                {
+                    b.Navigation("Appointments");
+                });
+
+            modelBuilder.Entity("MedicineProject.Models.WebMobileModels.Hospital", b =>
                 {
                     b.Navigation("Doctors");
-
-                    b.Navigation("Patients");
                 });
 
-            modelBuilder.Entity("MedicineProject.Models.Illness", b =>
-                {
-                    b.Navigation("Patients");
-                });
-
-            modelBuilder.Entity("MedicineProject.Models.Region", b =>
+            modelBuilder.Entity("MedicineProject.Models.WebMobileModels.Region", b =>
                 {
                     b.Navigation("Cities");
                 });
 
-            modelBuilder.Entity("MedicineProject.Models.RiskFactor", b =>
-                {
-                    b.Navigation("Patients");
-                });
-
-            modelBuilder.Entity("MedicineProject.Models.Speciality", b =>
+            modelBuilder.Entity("MedicineProject.Models.WebMobileModels.Speciality", b =>
                 {
                     b.Navigation("Doctors");
                 });

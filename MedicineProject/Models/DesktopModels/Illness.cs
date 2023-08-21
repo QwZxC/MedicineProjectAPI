@@ -1,13 +1,13 @@
 ﻿using MedicineProject.DTOs;
 using MedicineProject.Models.Base;
 
-namespace MedicineProject.Models
+namespace MedicineProject.Models.DesktopModels
 {
     public class Illness : BaseModel
     {
         public string Description { get; set; }
 
-        public List<Patient> Patients { get; set; } 
+        public List<Patient> Patients { get; set; }
 
         public Illness() { }
 

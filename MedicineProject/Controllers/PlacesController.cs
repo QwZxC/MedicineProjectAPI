@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using MedicineProject.Context;
+using MedicineProject.Controllers.Base;
 using MedicineProject.DTOs;
-using MedicineProject.Models;
+using MedicineProject.Models.WebMobileModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
@@ -10,17 +11,12 @@ namespace MedicineProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PlacesController : ControllerBase
+    public class PlacesController : BaseController
     {
-        private readonly ApplicationContext context;
-        private readonly IMapper mapper;
-        private readonly IMemoryCache cache;
-
-        public PlacesController(ApplicationContext context, IMapper mapper, IMemoryCache memoryCache)
+        public PlacesController(WebMobileContext context, IMapper mapper, IMemoryCache memoryCache) 
+            : base(context, mapper, memoryCache)
         {
-            this.context = context;
-            this.mapper = mapper;
-            cache = memoryCache;
+
         }
 
         [HttpGet("GetPlaces")]
@@ -44,13 +40,6 @@ namespace MedicineProject.Controllers
             cache.Set(0,counties);
 
             return Ok(counties);
-        }
-
-        private List<DTO> MapObjects<ORIGINAL, DTO>(List<ORIGINAL> items)
-        {
-            List<DTO> DTOs = new List<DTO>();
-            items.ForEach(item => DTOs.Add(mapper.Map<DTO>(item)));
-            return DTOs;
         }
 
         private void LoadRegion()

@@ -1,75 +1,97 @@
 ﻿using AutoMapper;
 using MedicineProject.Context;
+using MedicineProject.Controllers.Base;
 using MedicineProject.DTOs;
 using MedicineProject.Filters;
-using MedicineProject.Models;
+using MedicineProject.Models.WebMobileModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace MedicineProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HospitalsController : ControllerBase
+    public class HospitalsController : BaseController
     {
-        private readonly ApplicationContext context;
-        private readonly IMapper mapper;
-        private readonly IMemoryCache cache;
-
-        public HospitalsController(ApplicationContext context, IMapper mapper, IMemoryCache memoryCache)
+        public HospitalsController(WebMobileContext context, IMapper mapper, IMemoryCache memoryCache) 
+            : base(context, mapper, memoryCache)
         {
-            this.context = context;
-            this.mapper = mapper;
-            cache = memoryCache;
+
         }
 
-        [HttpGet]
-        [Route("GetHospitals")]
+        [HttpGet("GetAllHospitals")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<List<HospitalDTO>>> GetAllHospitals([FromQuery] HospitalFilter filter)
         {
-            List<HospitalDTO> hospitals;
+            List<Hospital> hospitals = await mobileAndWebRepository.GetHospitalsWithFilterAsync(filter);
+            List<HospitalDTO> hospitalsDTOs = new List<HospitalDTO>();
             
-            City targetCity = await context.City.FindAsync(filter.CityId);
-            if (targetCity == null) 
+            hospitals.ForEach(hospital => 
             {
-                return BadRequest("Неверный город.");
-            }
-            
-            if (filter.Name == string.Empty && filter.MinRating == 0 && filter.MaxRating == 5 && cache.TryGetValue(filter.CityId, out hospitals))
-            {
-                return Ok(hospitals);
-            }
-            hospitals = new List<HospitalDTO>();
-
-            await context.Hospital.ForEachAsync(hospital =>
-            {
-               if (hospital.Name.Contains(filter.Name) && hospital.Rating >= filter.MinRating && hospital.Rating <= filter.MaxRating && hospital.CityId == targetCity.Id)
-               {
-                    hospitals.Add(mapper.Map<HospitalDTO>(hospital));
-               }
+                HospitalDTO hospitalDTO = mapper.Map<HospitalDTO>(hospital);
+                hospitalDTO.Doctors = MapObjects<Doctor, DoctorDTO>(hospital.Doctors);
+                hospitalsDTOs.Add(hospitalDTO);
             });
-            cache.Set(filter.CityId, hospitals);
 
-            return Ok(hospitals);
+            return Ok(hospitalsDTOs);
         }
 
-        [HttpGet]
-        [Route("GetHospitals/{id:int}")]
-        public async Task<ActionResult> GetHospitalById(long id)
+        [HttpPost("AddHospital")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(HospitalDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<HospitalDTO>> AddHospital([FromBody] HospitalDTO hospitalDTO)
         {
-            if (id <= 0)
+            if (hospitalDTO == null) 
             {
-                return BadRequest("Невозможный id.");
+                return BadRequest();
             }
-            HospitalDTO hospital = mapper.Map<HospitalDTO>(await context.Hospital.FindAsync(id));
-            
-            if (hospital == null)
+
+            if (await mobileAndWebRepository.TryGetItemByNameAsync<Hospital>(hospitalDTO.Name) != null)
+            {
+                return BadRequest("Больница с таким названием уже есть в списке");
+            }
+
+            await mobileAndWebRepository.CreateItemAsync(mapper.Map<Hospital>(hospitalDTO));
+
+            await mobileAndWebRepository.SaveAsync();
+
+            return Ok(hospitalDTO);
+        }
+
+        [HttpPut("UpdateHospital")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(HospitalDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<HospitalDTO>> UpdateHospital([FromBody] HospitalDTO hospitalDTO)
+        {
+            if (hospitalDTO == null)
+            {
+                return BadRequest();
+            }
+            Hospital oldHospital = await mobileAndWebRepository.TryGetItemByIdAsync<Hospital>(hospitalDTO.Id);
+
+            if (oldHospital == null)
             {
                 return NotFound("Такой больницы нет.");
             }
+            
+            oldHospital.Name = hospitalDTO.Name;
+            oldHospital.Description = hospitalDTO.Description;
+            oldHospital.StartedTime = hospitalDTO.StartedTime;
+            oldHospital.EndTime = hospitalDTO.EndTime;
+            oldHospital.CityId = hospitalDTO.CityId;
+            oldHospital.Rating = hospitalDTO.Rating;
+            oldHospital.Address = hospitalDTO.Address;
+            oldHospital.Doctors = MapObjects<DoctorDTO, Doctor>(hospitalDTO.Doctors);
 
-            return Ok(hospital);
+            mobileAndWebRepository.UpdateItemAsync(mapper.Map<Hospital>(hospitalDTO), oldHospital);
+
+            await mobileAndWebRepository.SaveAsync();
+
+            return Ok(hospitalDTO);
         }
     }
 }

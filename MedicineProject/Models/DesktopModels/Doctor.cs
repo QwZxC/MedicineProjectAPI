@@ -1,9 +1,9 @@
 ﻿using MedicineProject.DTOs;
 using Microsoft.AspNetCore.Identity;
 
-namespace MedicineProject.Models
+namespace MedicineProject.Models.DesktopModels
 {
-    public class User : IdentityUser<long>
+    public class Doctor : IdentityUser<long>
     {
         public string Name { get; set; }
 
@@ -15,7 +15,7 @@ namespace MedicineProject.Models
 
         public DateTime RefreshTokenExpiryTime { get; set; }
 
-        public User() 
+        public Doctor() 
         { 
 
         }

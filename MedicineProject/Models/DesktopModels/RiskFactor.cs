@@ -1,7 +1,7 @@
 ﻿using MedicineProject.DTOs;
 using MedicineProject.Models.Base;
 
-namespace MedicineProject.Models
+namespace MedicineProject.Models.DesktopModels
 {
     public class RiskFactor : BaseModel
     {

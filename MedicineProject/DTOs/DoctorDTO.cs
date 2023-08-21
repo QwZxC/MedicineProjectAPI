@@ -1,4 +1,4 @@
-﻿using MedicineProject.Models;
+﻿using MedicineProject.Models.WebMobileModels;
 
 namespace MedicineProject.DTOs
 {
@@ -6,17 +6,13 @@ namespace MedicineProject.DTOs
     {
         public long SpecialityId { get; set; }
 
-        public Speciality Speciality { get; set; }
+        public long Doctor_HospitalId { get; set; }
+
+        public SpecialityDTO Speciality { get; set; }
 
         public DoctorDTO()
         {
 
-        }
-
-        public DoctorDTO(Doctor doctor) : base(doctor) 
-        {
-            SpecialityId = doctor.SpecialityId;
-            Speciality = doctor.Speciality;
         }
     }
 }

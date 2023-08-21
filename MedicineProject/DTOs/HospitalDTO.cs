@@ -1,30 +1,37 @@
 ﻿using MedicineProject.DTOs.Base;
-using MedicineProject.Models;
+using MedicineProject.Models.WebMobileModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace MedicineProject.DTOs
 {
     public record HospitalDTO : BaseDTO
     {
+        [Required]
         public string Name { get; set; }
 
+        [Required]
         public string Description { get; set; }
 
+        [Required]
         public string Address { get; set; }
 
+        [Required]
         public TimeOnly StartedTime { get; set; }
 
+        [Required]
         public TimeOnly EndTime { get; set; }
 
+        [Required]
         public string Contacts { get; set; }
 
         public byte Rating { get; set; }
 
+        [Required]
         public string Email { get; set; }
-        
-        public List<Patient> Patients { get; set; }
 
-        public List<Doctor> Doctors { get; set; }
+        public List<DoctorDTO> Doctors { get; set; }
 
+        [Required]
         public long CityId { get; set; }
 
         public HospitalDTO() { }
@@ -39,8 +46,6 @@ namespace MedicineProject.DTOs
             EndTime = hospital.EndTime;
             Rating = hospital.Rating;
             Email = hospital.Email;
-            Patients = hospital.Patients;
-            Doctors = hospital.Doctors;
             CityId = hospital.CityId;
         }
     }

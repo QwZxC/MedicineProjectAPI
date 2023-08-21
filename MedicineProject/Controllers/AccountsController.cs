@@ -1,5 +1,5 @@
 ﻿using MedicineProject.Context;
-using MedicineProject.Models;
+using MedicineProject.Models.WebMobileModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +10,7 @@ using MedicineProject.Extensions;
 using MedicineProject.DTOs.Identity;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
+using MedicineProject.Models;
 
 namespace MedicineProject.Controllers
 {
@@ -18,13 +18,14 @@ namespace MedicineProject.Controllers
     [ApiController]
     public class AccountsController : ControllerBase
     {
-        private readonly UserManager<User> userManager;
-        private readonly ApplicationContext context;
+        private readonly UserManager<Patient> userManager;
+        private readonly WebMobileContext context;
         private readonly ITokenService tokenService;
         private readonly IConfiguration configuration;
         private readonly IMapper mapper;
+        private const string BAD_PASSWORD = "Пароль не соответствует ограничениям";
 
-        public AccountsController(UserManager<User> userManager, ApplicationContext context, ITokenService tokenService, 
+        public AccountsController(UserManager<Patient> userManager, WebMobileContext context, ITokenService tokenService, 
                                   IConfiguration configuration)
         {
             this.userManager = userManager;
@@ -41,7 +42,7 @@ namespace MedicineProject.Controllers
                 return BadRequest(ModelState);
             }
 
-            User? managedUser = await userManager.FindByEmailAsync(request.Email);
+            Patient? managedUser = await userManager.FindByEmailAsync(request.Email);
 
             if (managedUser == null)
             {
@@ -55,7 +56,7 @@ namespace MedicineProject.Controllers
                 return BadRequest("Не верный пароль");
             }
 
-            User? user = await context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
+            Patient? user = await context.Patient.FirstOrDefaultAsync(u => u.Email == request.Email);
 
             if (user is null)
             {
@@ -97,7 +98,7 @@ namespace MedicineProject.Controllers
                 return BadRequest("Неверная роль");
             }
 
-            User user = new User
+            Patient user = new Patient
             {
                 Name = request.FirstName,
                 Surname = request.LastName,
@@ -114,12 +115,10 @@ namespace MedicineProject.Controllers
 
             if (!result.Succeeded) 
             {
-                StringBuilder errors = new StringBuilder();
-                result.Errors.ToList().ForEach(error => errors.AppendLine(error.Description.ToString()));
-                return BadRequest(errors.ToString());
-            } 
+                return BadRequest(BAD_PASSWORD);
+            }
 
-            User? findUser = await context.Users.FirstOrDefaultAsync(x => x.Email == request.Email);
+            Patient? findUser = await context.Patient.FirstOrDefaultAsync(x => x.Email == request.Email);
             if (findUser == null) 
             {
                 NotFound($"Пользователь {request.Email} не найден");
@@ -154,7 +153,7 @@ namespace MedicineProject.Controllers
             }
 
             string? username = principal.Identity!.Name;
-            User? user = await userManager.FindByNameAsync(username!);
+            Patient? user = await userManager.FindByNameAsync(username!);
 
             if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime >= DateTime.UtcNow)
             {
@@ -179,7 +178,7 @@ namespace MedicineProject.Controllers
         [Route("revoke/{username}")]
         public async Task<IActionResult> Revoke(string username)
         {
-            User? user = await userManager.FindByNameAsync(username);
+            Patient? user = await userManager.FindByNameAsync(username);
             if (user == null) 
             {
                 return NotFound("Invalid user name");
@@ -196,8 +195,8 @@ namespace MedicineProject.Controllers
         [Route("revoke-all")]
         public async Task<IActionResult> RevokeAll()
         {
-            List<User> users = userManager.Users.ToList();
-            foreach (User user in users)
+            List<Patient> users = userManager.Users.ToList();
+            foreach (Patient user in users)
             {
                 user.RefreshToken = null;
                 await userManager.UpdateAsync(user);

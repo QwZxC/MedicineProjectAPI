@@ -1,9 +1,10 @@
 ﻿using MedicineProject.DTOs;
 using MedicineProject.Models.Base;
+using MedicineProject.Models.DesktopModels;
 
-namespace MedicineProject.Models
+namespace MedicineProject.Models.WebMobileModels
 {
-    public class Hospital : BaseModel 
+    public class Hospital : BaseModel
     {
         public string Description { get; set; }
 
@@ -19,9 +20,7 @@ namespace MedicineProject.Models
 
         public string Email { get; set; }
 
-        public List<Patient> Patients { get; set; }
-
-        public List<Doctor> Doctors { get; set; }
+        public List<Doctor> Doctors { get; set; } = new List<Doctor>();
 
         public long CityId { get; set; }
 
@@ -38,8 +37,6 @@ namespace MedicineProject.Models
             EndTime = hospital.EndTime;
             Rating = hospital.Rating;
             Email = hospital.Email;
-            Patients = hospital.Patients;
-            Doctors = hospital.Doctors;
             Contacts = hospital.Contacts;
             CityId = hospital.CityId;
         }

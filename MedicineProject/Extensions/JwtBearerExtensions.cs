@@ -11,7 +11,7 @@ namespace MedicineProject.Extensions
 {
     public static class JwtBearerExtensions
     {
-        public static List<Claim> CreateClaims(this User user, List<IdentityRole<long>> roles)
+        public static List<Claim> CreateClaims(this Patient user, List<IdentityRole<long>> roles)
         {
             var claims = new List<Claim>
             {

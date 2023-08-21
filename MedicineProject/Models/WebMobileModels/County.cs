@@ -1,7 +1,7 @@
 ﻿using MedicineProject.Models.Base;
 using MedicineProject.DTOs;
 
-namespace MedicineProject.Models
+namespace MedicineProject.Models.WebMobileModels
 {
     public class County : BaseModel
     {

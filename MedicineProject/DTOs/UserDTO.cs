@@ -29,7 +29,7 @@ namespace MedicineProject.DTOs
         }
 
         [JsonConstructor]
-        public UserDTO(User person)
+        public UserDTO(Patient person)
         {
             Id = person.Id;
             Name = person.Name;

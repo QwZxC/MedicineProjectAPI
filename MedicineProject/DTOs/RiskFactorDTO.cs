@@ -1,5 +1,5 @@
 ﻿using MedicineProject.DTOs.Base;
-using MedicineProject.Models;
+using MedicineProject.Models.DesktopModels;
 
 namespace MedicineProject.DTOs
 {
