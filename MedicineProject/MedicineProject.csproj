@@ -34,7 +34,6 @@
 	
 
   <ItemGroup>
-    <Folder Include="backups\" />
     <Folder Include="DTOs\DTOsForWeb\" />
     <Folder Include="DTOs\DTOsForWPF\" />
     <Folder Include="Migrations\" />
