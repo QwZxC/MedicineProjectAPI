@@ -19,7 +19,7 @@ namespace MedicineProject.Controllers
 
         }
 
-        [HttpGet("GetAllHospitals")]
+        [HttpGet("Hospitals")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<List<HospitalDTO>>> GetAllHospitals([FromQuery] HospitalFilter filter)
@@ -36,6 +36,29 @@ namespace MedicineProject.Controllers
 
             return Ok(hospitalsDTOs);
         }
+
+        [HttpGet("Hospitals/{id:long}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<HospitalDTO>> GetHospital([FromRoute] long id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            Hospital targetHospital = await mobileAndWebRepository.TryGetItemByIdAsync<Hospital>(id);
+
+            if (targetHospital == null)
+            {
+                return NotFound("Такой больницы нет в списке");
+            }
+
+            return Ok(mapper.Map<HospitalDTO>(targetHospital));
+        }
+
 
         [HttpPost("AddHospital")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(HospitalDTO))]
