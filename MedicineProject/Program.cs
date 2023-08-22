@@ -1,14 +1,13 @@
-using MedicineProject.Context;
+using MedicineProject.Domain.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using MedicineProject.Models;
 using Microsoft.OpenApi.Models;
-using MedicineProject.Services;
+using MedicineProject.Domain.Services;
+using MedicineProject.Domain.Models.WebMobile;
 
 namespace MedicineProject
 {

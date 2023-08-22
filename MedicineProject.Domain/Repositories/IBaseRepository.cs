@@ -1,7 +1,7 @@
-﻿using MedicineProject.Models.Base;
+﻿using MedicineProject.Domain.Models.Base;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace MedicineProject.interfaces
+namespace MedicineProject.Domain.Repositories
 {
     public interface IBaseRepository
     {

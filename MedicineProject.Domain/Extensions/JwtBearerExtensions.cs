@@ -1,5 +1,6 @@
-﻿using MedicineProject.Models;
+﻿using MedicineProject.Domain.Models.WebMobile;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
@@ -7,7 +8,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace MedicineProject.Extensions
+namespace MedicineProject.Domain.Extensions
 {
     public static class JwtBearerExtensions
     {

@@ -1,4 +1,4 @@
-﻿namespace MedicineProject.DTOs.Identity
+﻿namespace MedicineProject.Domain.DTOs.Identity
 {
     public record RoleConsts
     {

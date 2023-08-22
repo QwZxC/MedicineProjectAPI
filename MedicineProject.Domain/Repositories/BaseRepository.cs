@@ -1,10 +1,9 @@
-﻿using MedicineProject.Context;
-using MedicineProject.interfaces;
-using MedicineProject.Models.Base;
+﻿using MedicineProject.Domain.Context;
+using MedicineProject.Domain.Models.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace MedicineProject.Repositories.Base
+namespace MedicineProject.Domain.Repositories
 {
     public class BaseRepository : IBaseRepository 
     {

@@ -1,8 +1,8 @@
-﻿using MedicineProject.DTOs.Base;
-using MedicineProject.Models;
+﻿using MedicineProject.Domain.DTOs.Base;
+using MedicineProject.Domain.Models.WebMobile;
 using System.Text.Json.Serialization;
 
-namespace MedicineProject.DTOs
+namespace MedicineProject.Domain.DTOs
 {
     public record UserDTO : BaseDTO
     {

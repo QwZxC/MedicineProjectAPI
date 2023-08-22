@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using MedicineProject.Context;
+using MedicineProject.Domain.Context;
 using MedicineProject.Controllers.Base;
-using MedicineProject.DTOs;
-using MedicineProject.Models.WebMobileModels;
+using MedicineProject.Domain.DTOs;
+using MedicineProject.Domain.Models.WebMobile;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;

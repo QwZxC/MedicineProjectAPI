@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace MedicineProject.Extensions
+namespace MedicineProject.Domain.Extensions
 {
     public static class EnumExtensions
     {

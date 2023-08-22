@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using MedicineProject.Context;
+using MedicineProject.Domain.Context;
 using MedicineProject.Controllers.Base;
-using MedicineProject.DTOs;
-using MedicineProject.Filters;
-using MedicineProject.Models.WebMobileModels;
+using MedicineProject.Domain.DTOs;
+using MedicineProject.Domain.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using MedicineProject.Domain.Models.WebMobile;
 
 namespace MedicineProject.Controllers
 {

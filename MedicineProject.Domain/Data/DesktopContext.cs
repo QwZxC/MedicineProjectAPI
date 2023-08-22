@@ -1,4 +1,4 @@
-﻿namespace MedicineProject.Data
+﻿namespace MedicineProject.Domain.Data
 {
     public class DesktopContext
     {

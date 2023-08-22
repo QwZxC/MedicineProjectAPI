@@ -1,7 +1,8 @@
-﻿using MedicineProject.DTOs.Base;
-using MedicineProject.Models.WebMobileModels;
+﻿using MedicineProject.Domain.DTOs;
+using MedicineProject.Domain.DTOs.Base;
+using MedicineProject.Domain.Models.WebMobile;
 
-namespace MedicineProject.DTOs
+namespace MedicineProject.Domain.DTOs
 {
     public record RegionDTO : BaseDTO
     {

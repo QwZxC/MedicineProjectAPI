@@ -1,8 +1,6 @@
-﻿using MedicineProject.DTOs;
-using MedicineProject.Models.WebMobileModels;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
-namespace MedicineProject.Models
+namespace MedicineProject.Domain.Models.WebMobile
 {
     public class Patient : IdentityUser<long>
     {

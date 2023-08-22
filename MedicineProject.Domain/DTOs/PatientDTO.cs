@@ -1,4 +1,4 @@
-﻿namespace MedicineProject.DTOs
+﻿namespace MedicineProject.Domain.DTOs
 {
     public record PatientDTO : UserDTO
     {

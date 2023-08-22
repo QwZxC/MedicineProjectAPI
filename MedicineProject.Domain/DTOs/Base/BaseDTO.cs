@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MedicineProject.DTOs.Base
+namespace MedicineProject.Domain.DTOs.Base
 {
     public record BaseDTO
     {

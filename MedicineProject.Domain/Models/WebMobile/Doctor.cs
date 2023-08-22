@@ -1,6 +1,6 @@
-﻿using MedicineProject.Models.Base;
+﻿using MedicineProject.Domain.Models.Base;
 
-namespace MedicineProject.Models.WebMobileModels
+namespace MedicineProject.Domain.Models.WebMobile
 {
     public class Doctor : BaseModel
     {

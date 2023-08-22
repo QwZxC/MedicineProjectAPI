@@ -1,6 +1,6 @@
-﻿using MedicineProject.Models.WebMobileModels;
+﻿using MedicineProject.Domain.DTOs;
 
-namespace MedicineProject.DTOs
+namespace MedicineProject.Domain.DTOs
 {
     public record DoctorDTO : UserDTO
     {

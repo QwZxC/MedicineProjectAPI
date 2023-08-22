@@ -1,7 +1,7 @@
-﻿using MedicineProject.DTOs;
-using MedicineProject.Models.Base;
+﻿using MedicineProject.Domain.DTOs;
+using MedicineProject.Domain.Models.Base;
 
-namespace MedicineProject.Models.DesktopModels
+namespace MedicineProject.Domain.Models.DesktopModels
 {
     public class Illness : BaseModel
     {

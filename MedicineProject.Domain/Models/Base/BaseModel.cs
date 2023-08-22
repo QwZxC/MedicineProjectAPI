@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MedicineProject.Models.Base
+namespace MedicineProject.Domain.Models.Base
 {
     public abstract class BaseModel
     {

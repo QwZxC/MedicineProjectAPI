@@ -1,8 +1,6 @@
-﻿using MedicineProject.DTOs;
-using MedicineProject.Models.WebMobileModels;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MedicineProject.Models.DesktopModels
+namespace MedicineProject.Domain.Models.DesktopModels
 {
     public class Patient
     {
@@ -17,8 +15,6 @@ namespace MedicineProject.Models.DesktopModels
         public long IllnessId { get; set; }
 
         public long HospitalId { get; set; }
-
-        public Hospital Hospital { get; set; }
 
         public Patient()
         {

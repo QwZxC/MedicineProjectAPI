@@ -5,16 +5,16 @@ WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["MedicineProject/MedicineProject.csproj", "MedicineProject/"]
-RUN dotnet restore "MedicineProject/MedicineProject.csproj"
+COPY ["MedicineProject/MedicineProject.Api.csproj", "MedicineProject.Api/"]
+RUN dotnet restore "MedicineProject/MedicineProject.Api.csproj"
 COPY . .
 WORKDIR "/src/MedicineProject"
-RUN dotnet build "MedicineProject.csproj" -c Release -o /app/build
+RUN dotnet build "MedicineProject.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "MedicineProject.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "MedicineProject.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "MedicineProject.dll"]
+ENTRYPOINT ["dotnet", "MedicineProject.Api.dll"]

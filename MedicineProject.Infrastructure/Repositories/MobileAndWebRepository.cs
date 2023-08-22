@@ -1,10 +1,10 @@
-﻿using MedicineProject.Context;
-using MedicineProject.Filters;
-using MedicineProject.Models.WebMobileModels;
-using MedicineProject.Repositories.Base;
+﻿using MedicineProject.Domain.Context;
+using MedicineProject.Domain.Filters;
+using MedicineProject.Domain.Repositories;
+using MedicineProject.Domain.Models.WebMobile;
 using Microsoft.EntityFrameworkCore;
 
-namespace MedicineProject.Repositories
+namespace MedicineProject.Infrastructure.Repositories
 {
     public class MobileAndWebRepository : BaseRepository
     {

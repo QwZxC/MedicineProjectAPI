@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MedicineProject.DTOs.Identity
+namespace MedicineProject.Domain.DTOs.Identity
 {
     public record RegisterRequest
     {

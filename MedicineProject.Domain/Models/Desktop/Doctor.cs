@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace MedicineProject.Models.Desktop
+namespace MedicineProject.Domain.Models.Desktop
 {
     public class Doctor : IdentityUser<long>
     {

@@ -1,10 +1,10 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
-using MedicineProject.Extensions;
-using MedicineProject.Models;
+using MedicineProject.Domain.Extensions;
+using MedicineProject.Domain.Models.WebMobile;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 
-
-namespace MedicineProject.Services
+namespace MedicineProject.Domain.Services
 {
     public class TokenService : ITokenService
     {

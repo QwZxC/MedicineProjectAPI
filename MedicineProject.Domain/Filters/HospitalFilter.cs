@@ -1,6 +1,6 @@
-﻿using MedicineProject.DTOs;
+﻿using MedicineProject.Domain.DTOs;
 
-namespace MedicineProject.Filters
+namespace MedicineProject.Domain.Filters
 {
     public class HospitalFilter
     {

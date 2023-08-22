@@ -1,7 +1,7 @@
-﻿using MedicineProject.Models;
+﻿using MedicineProject.Domain.Models.WebMobile;
 using Microsoft.AspNetCore.Identity;
 
-namespace MedicineProject.Services
+namespace MedicineProject.Domain.Services
 {
     public interface ITokenService
     {

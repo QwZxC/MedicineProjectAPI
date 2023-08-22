@@ -1,16 +1,15 @@
-﻿using MedicineProject.Context;
-using MedicineProject.Models.WebMobileModels;
+﻿using MedicineProject.Domain.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MedicineProject.Services;
+using MedicineProject.Domain.Services;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using MedicineProject.Extensions;
-using MedicineProject.DTOs.Identity;
+using MedicineProject.Domain.Extensions;
+using MedicineProject.Domain.DTOs.Identity;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using MedicineProject.Models;
+using MedicineProject.Domain.Models.WebMobile;
 
 namespace MedicineProject.Controllers
 {

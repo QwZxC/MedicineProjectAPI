@@ -1,8 +1,8 @@
-﻿using MedicineProject.DTOs.Base;
-using MedicineProject.Models.WebMobileModels;
+﻿using MedicineProject.Domain.DTOs.Base;
+using MedicineProject.Domain.Models.WebMobile;
 using System.ComponentModel.DataAnnotations;
 
-namespace MedicineProject.DTOs
+namespace MedicineProject.Domain.DTOs
 {
     public record HospitalDTO : BaseDTO
     {
