@@ -10,6 +10,8 @@ namespace MedicineProject.Domain.Models.WebMobile
 
         public Hospital Hospital { get; set; }
 
+        public long HospitalId { get; set; }
+
         public long SpecialityId { get; set; }
 
         public Speciality Speciality { get; set; }

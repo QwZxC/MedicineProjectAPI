@@ -29,5 +29,10 @@ namespace MedicineProject.Infrastructure.Repositories
             return hospitals;
         }
 
+        public async Task LoadDoctorsForHospitalAsync()
+        {
+            await context.Doctor.Include(doctor => doctor.Speciality).ForEachAsync(doctor => { });
+        }
+
     }
 }

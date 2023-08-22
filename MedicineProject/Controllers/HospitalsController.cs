@@ -56,7 +56,12 @@ namespace MedicineProject.Controllers
                 return NotFound("Такой больницы нет в списке");
             }
 
-            return Ok(mapper.Map<HospitalDTO>(targetHospital));
+            await mobileAndWebRepository.LoadDoctorsForHospitalAsync();
+
+            HospitalDTO hospitalDTO = mapper.Map<HospitalDTO>(targetHospital);
+            hospitalDTO.Doctors = MapObjects<Doctor, DoctorDTO>(targetHospital.Doctors);
+
+            return Ok(hospitalDTO);
         }
 
 
