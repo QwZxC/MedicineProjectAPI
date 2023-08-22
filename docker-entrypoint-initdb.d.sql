@@ -442,3 +442,11 @@ INSERT INTO public."AspNetRoles"(
 	VALUES ('Patient', 'PATIENT'),
 	       ('Doctor','DOCTOR'),
                ('Admin','ADMIN');
+
+INSERT INTO public."Speciality"(
+	"Name")
+	VALUES ('Нейрохирург');
+
+INSERT INTO public."Doctor"(
+	"Surname", "Patronymic", "HospitalId", "SpecialityId", "Name")
+	VALUES ('Иванов', 'Иванович', 1, 1, 'Иван');

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using MedicineProject.Context;
-using MedicineProject.Repositories;
+using MedicineProject.Domain.Context;
+using MedicineProject.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 
