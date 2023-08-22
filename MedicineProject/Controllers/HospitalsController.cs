@@ -49,7 +49,12 @@ namespace MedicineProject.Controllers
                 return BadRequest();
             }
 
-            Hospital targetHospital = await mobileAndWebRepository.TryGetItemByIdAsync<Hospital>(id);
+            if (cache.TryGetValue(id, out Hospital targetHospital))
+            {
+                return Ok(targetHospital);
+            }
+
+            targetHospital = await mobileAndWebRepository.TryGetItemByIdAsync<Hospital>(id);
 
             if (targetHospital == null)
             {
@@ -60,6 +65,7 @@ namespace MedicineProject.Controllers
 
             HospitalDTO hospitalDTO = mapper.Map<HospitalDTO>(targetHospital);
             hospitalDTO.Doctors = MapObjects<Doctor, DoctorDTO>(targetHospital.Doctors);
+            cache.Set(id, hospitalDTO);
 
             return Ok(hospitalDTO);
         }
