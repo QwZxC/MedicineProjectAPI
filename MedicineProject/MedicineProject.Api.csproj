@@ -34,9 +34,12 @@
 	
 
   <ItemGroup>
-    <Folder Include="DTOs\DTOsForWeb\" />
-    <Folder Include="DTOs\DTOsForWPF\" />
     <Folder Include="Migrations\" />
+  </ItemGroup>
+	
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\MedicineProject.Domain\MedicineProject.Domain.csproj" />
   </ItemGroup>
 
 </Project>

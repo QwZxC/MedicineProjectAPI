@@ -27,12 +27,12 @@ namespace MedicineProject.Controllers.Base
         /// </summary>
         /// <typeparam name="ORIGINAL_TYPE"></typeparam>
         /// <typeparam name="TARGET_TYPE"></typeparam>
-        /// <param name="items"></param>
+        /// <param name="objects"></param>
         /// <returns></returns>
-        protected List<TARGET_TYPE> MapObjects<ORIGINAL_TYPE, TARGET_TYPE>(List<ORIGINAL_TYPE> items)
+        protected List<TARGET_TYPE> MapObjects<ORIGINAL_TYPE, TARGET_TYPE>(List<ORIGINAL_TYPE> objects)
         {
             List<TARGET_TYPE> DTOs = new List<TARGET_TYPE>();
-            items.ForEach(item => DTOs.Add(mapper.Map<TARGET_TYPE>(item)));
+            objects.ForEach(item => DTOs.Add(mapper.Map<TARGET_TYPE>(item)));
             return DTOs;
         }
     }
