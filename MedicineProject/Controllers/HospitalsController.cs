@@ -49,7 +49,7 @@ namespace MedicineProject.Controllers
                 return BadRequest();
             }
 
-            if (cache.TryGetValue(id, out Hospital targetHospital))
+            if (!cache.TryGetValue(id, out Hospital targetHospital))
             {
                 return Ok(targetHospital);
             }
@@ -61,7 +61,7 @@ namespace MedicineProject.Controllers
                 return NotFound("Такой больницы нет в списке");
             }
 
-            await mobileAndWebRepository.LoadDoctorsForHospitalAsync();
+            targetHospital.Doctors = await mobileAndWebRepository.LoadDoctorsForHospitalAsync(id);
 
             HospitalDTO hospitalDTO = mapper.Map<HospitalDTO>(targetHospital);
             hospitalDTO.Doctors = MapObjects<Doctor, DoctorDTO>(targetHospital.Doctors);
