@@ -40,6 +40,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\MedicineProject.Domain\MedicineProject.Domain.csproj" />
+    <ProjectReference Include="..\MedicineProject.Domain\MedicineProject.Domain.csproj" />
   </ItemGroup>
 
 </Project>
