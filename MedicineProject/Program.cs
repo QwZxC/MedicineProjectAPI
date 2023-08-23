@@ -1,14 +1,13 @@
-using MedicineProject.Context;
+using MedicineProject.Domain.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using MedicineProject.Models;
 using Microsoft.OpenApi.Models;
-using MedicineProject.Services;
+using MedicineProject.Domain.Services;
+using MedicineProject.Domain.Models.WebMobile;
 
 namespace MedicineProject
 {
@@ -18,11 +17,12 @@ namespace MedicineProject
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddDbContext<ApplicationContext>(
+            builder.Services.AddDbContext<WebMobileContext>(
                 options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+            builder.Services.AddMemoryCache();
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
 
@@ -49,10 +49,10 @@ namespace MedicineProject
                         (JwtBearerDefaults.AuthenticationScheme)
                     .RequireAuthenticatedUser()
                     .Build());
-            builder.Services.AddIdentity<User, IdentityRole<long>>()
-                .AddEntityFrameworkStores<ApplicationContext>()
-                .AddUserManager<UserManager<User>>()
-                .AddSignInManager<SignInManager<User>>();
+            builder.Services.AddIdentity<Patient, IdentityRole<long>>()
+                .AddEntityFrameworkStores<WebMobileContext>()
+                .AddUserManager<UserManager<Patient>>()
+                .AddSignInManager<SignInManager<Patient>>();
 
             builder.Services.AddSwaggerGen(option =>
             {
@@ -82,9 +82,10 @@ namespace MedicineProject
                 });
             });
 
-            var app = builder.Build();
+            WebApplication app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -92,7 +93,6 @@ namespace MedicineProject
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthentication();
             app.UseAuthorization();
 

@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   medicineproject:
-    image: ${DOCKER_REGISTRY-}medicineproject
+    image: yantar/medicineproject
     build:
       context: .
       dockerfile: MedicineProject/Dockerfile
@@ -15,13 +15,13 @@ services:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
   postgres:
-    container_name: "postgresDB"
+    container_name: "webMobileDb"
     image: postgres:15.3
     environment:
       POSTGRES_DB: MedicineProjectDb
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 301600
-      PGDATA: /var/lib/postgresql/data/pgdata
+      PGDATA: /data/pgdata
     ports:
       - "5432:5432"
     deploy:
@@ -30,7 +30,27 @@ services:
           cpus: '1'
           memory: 2G
     volumes:
-    - .:/MedicineProject.backup
+    - .:/docker-entrypoint-initdb.d
+    networks:
+      - postgres
+
+  postgres1:
+    container_name: "desktopDB"
+    image: postgres:15.3
+    environment:
+      POSTGRES_DB: MedicineProjectDb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 301600
+      PGDATA: /data/pgdata
+    ports:
+      - "2345:2345"
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2G
+    #volumes:
+    #- .:/docker-entrypoint-initdb.d
     networks:
       - postgres
 
