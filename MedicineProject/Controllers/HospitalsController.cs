@@ -9,8 +9,8 @@ using MedicineProject.Domain.Models.WebMobile;
 
 namespace MedicineProject.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class HospitalsController : BaseController
     {
         public HospitalsController(WebMobileContext context, IMapper mapper, IMemoryCache memoryCache) 
@@ -19,7 +19,7 @@ namespace MedicineProject.Controllers
 
         }
 
-        [HttpGet("Hospitals")]
+        [HttpGet("hospitals")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<List<HospitalDTO>>> GetAllHospitals([FromQuery] HospitalFilter filter)
@@ -37,7 +37,7 @@ namespace MedicineProject.Controllers
             return Ok(hospitalsDTOs);
         }
 
-        [HttpGet("Hospitals/{id:long}")]
+        [HttpGet("hospitals/{id:long}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -71,7 +71,7 @@ namespace MedicineProject.Controllers
         }
 
 
-        [HttpPost("AddHospital")]
+        [HttpPost("hospital")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(HospitalDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -94,7 +94,7 @@ namespace MedicineProject.Controllers
             return Ok(hospitalDTO);
         }
 
-        [HttpPut("UpdateHospital")]
+        [HttpPut("hospital")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(HospitalDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
