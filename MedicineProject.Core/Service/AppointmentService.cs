@@ -22,7 +22,6 @@ namespace MedicineProject.Core.Service
             Appointment appointmentToDb = mapper.Map<Appointment>(appointment);
 
             await mobileAndWebRepository.CreateItemAsync(appointmentToDb);
-            await mobileAndWebRepository.SaveAsync();
 
             appointment.Id = appointmentToDb.Id;
 
