@@ -13,8 +13,8 @@ using MedicineProject.Domain.Models.WebMobile;
 
 namespace MedicineProject.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class AccountsController : ControllerBase
     {
         private readonly UserManager<Patient> userManager;
