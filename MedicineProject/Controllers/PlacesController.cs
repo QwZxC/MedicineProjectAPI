@@ -9,8 +9,8 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace MedicineProject.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class PlacesController : BaseController
     {
         public PlacesController(WebMobileContext context, IMapper mapper, IMemoryCache memoryCache) 
@@ -19,11 +19,10 @@ namespace MedicineProject.Controllers
 
         }
 
-        [HttpGet("GetPlaces")]
+        [HttpGet]
         public async Task<ActionResult<List<RegionDTO>>> GetPlaces()
         {
-            List<CountyDTO> counties;
-            if (cache.TryGetValue(0, out counties))
+            if (cache.TryGetValue(0, out List <CountyDTO> counties))
             {
                 return Ok(counties);
             }
