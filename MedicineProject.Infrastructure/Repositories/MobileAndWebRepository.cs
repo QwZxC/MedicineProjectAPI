@@ -29,5 +29,19 @@ namespace MedicineProject.Infrastructure.Repositories
             return hospitals;
         }
 
+        public async Task<List<Doctor>> LoadDoctorsForHospitalAsync(long hospitalId)
+        {
+            List<Doctor> doctors = new List<Doctor>();
+            await context.Doctor.Include(doctor => doctor.Speciality).
+                  ForEachAsync(doctor => 
+                  {
+                      if (doctor.HospitalId == hospitalId)
+                      {
+                          doctors.Add(doctor);
+                      }
+                  });
+            return doctors;
+        }
+
     }
 }
