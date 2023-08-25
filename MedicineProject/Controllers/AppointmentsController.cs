@@ -3,23 +3,26 @@ using MedicineProject.Controllers.Base;
 using MedicineProject.Domain.Context;
 using MedicineProject.Domain.DTOs.WebMobile;
 using MedicineProject.Domain.Models.WebMobile;
+using MedicineProject.Domain.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace MedicineProject.Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class AppointmentsController : BaseController
     {
-        public AppointmentsController(WebMobileContext context, IMapper mapper, IMemoryCache memoryCache)
+        private readonly IAppointmentService appointmentService;
+        public AppointmentsController(WebMobileContext context, IMapper mapper, 
+                                      IMemoryCache memoryCache, IAppointmentService appointmentService)
             : base(context, mapper, memoryCache)
         {
-
+            this.appointmentService = appointmentService;
         }
 
-        [HttpPut("SendAppointment")]
+        [HttpPut("appointment")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -34,19 +37,14 @@ namespace MedicineProject.Api.Controllers
             }
 
             Doctor doctor = await mobileAndWebRepository.TryGetItemByIdAsync<Doctor>(appointment.DoctorId);
-
             if (doctor == null)
             {
                 return NotFound("Доктор не найден");
             }
 
-            Appointment appointmentToDb = mapper.Map<Appointment>(appointment);
+            await appointmentService.CreateAsync(appointment);
 
-            await mobileAndWebRepository.CreateItemAsync(appointmentToDb);
-
-            await mobileAndWebRepository.SaveAsync();
-
-            return Ok();
+            return Ok(appointment);
         }
     }
 }

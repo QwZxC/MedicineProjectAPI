@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MedicineProject.Infrastructure.Repositories
 {
-    public class MobileAndWebRepository : BaseRepository
+    public class MobileAndWebRepository : BaseRepository, IMobileAndWebRepository
     {
         public MobileAndWebRepository(WebMobileContext context) : base(context)
         {
