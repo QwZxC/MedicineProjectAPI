@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using MedicineProject.Domain.DTOs;
+using MedicineProject.Domain.DTOs.Desktop;
+using MedicineProject.Domain.DTOs.WebMobile;
 using MedicineProject.Domain.Models.DesktopModels;
 using MedicineProject.Domain.Models.WebMobile;
 

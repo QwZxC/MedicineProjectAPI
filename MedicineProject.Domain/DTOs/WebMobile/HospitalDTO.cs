@@ -2,7 +2,7 @@
 using MedicineProject.Domain.Models.WebMobile;
 using System.ComponentModel.DataAnnotations;
 
-namespace MedicineProject.Domain.DTOs
+namespace MedicineProject.Domain.DTOs.WebMobile
 {
     public record HospitalDTO : BaseDTO
     {
