@@ -10,7 +10,7 @@ namespace MedicineProject.Domain.Models.WebMobile
 
         public Doctor Doctor { get; set; }
 
-        public TimeOnly Time { get; set; }
+        public DateTime Time { get; set; }
 
         public DateTime Date { get; set; }
         

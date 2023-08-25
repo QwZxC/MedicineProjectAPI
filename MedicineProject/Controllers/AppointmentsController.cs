@@ -5,6 +5,7 @@ using MedicineProject.Domain.DTOs.WebMobile;
 using MedicineProject.Domain.Models.WebMobile;
 using MedicineProject.Domain.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -15,14 +16,16 @@ namespace MedicineProject.Api.Controllers
     public class AppointmentsController : BaseController
     {
         private readonly IAppointmentService appointmentService;
-        public AppointmentsController(WebMobileContext context, IMapper mapper, 
+        private readonly UserManager<Patient> userManager;
+        public AppointmentsController(UserManager<Patient> userManager, WebMobileContext context, IMapper mapper,
                                       IMemoryCache memoryCache, IAppointmentService appointmentService)
             : base(context, mapper, memoryCache)
         {
+            this.userManager = userManager;
             this.appointmentService = appointmentService;
         }
 
-        [HttpPut("appointment")]
+        [HttpPost("appointment")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -31,15 +34,13 @@ namespace MedicineProject.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> SendAppointment([FromBody] AppointmentDTO appointment)
         {
-            if (appointment == null)
-            {
-                return BadRequest();
-            }
+            var doctor = await mobileAndWebRepository.TryGetItemByIdAsync<Doctor>(appointment.DoctorId);
+            var patient = await userManager.FindByIdAsync(appointment.PatientId.ToString());
+            var type = await mobileAndWebRepository.TryGetItemByIdAsync<Domain.Models.WebMobile.Type>(appointment.TypeId);
 
-            Doctor doctor = await mobileAndWebRepository.TryGetItemByIdAsync<Doctor>(appointment.DoctorId);
-            if (doctor == null)
+            if (doctor == null || patient == null || type == null)
             {
-                return NotFound("Доктор не найден");
+                return NotFound();
             }
 
             await appointmentService.CreateAsync(appointment);

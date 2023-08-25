@@ -1,6 +1,8 @@
-﻿namespace MedicineProject.Domain.DTOs.WebMobile
+﻿using MedicineProject.Domain.DTOs.Base;
+
+namespace MedicineProject.Domain.DTOs.WebMobile
 {
-    public record TypeDTO
+    public record TypeDTO : BaseDTO
     {
     }
 }
