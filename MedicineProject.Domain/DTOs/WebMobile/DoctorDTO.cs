@@ -1,7 +1,6 @@
 ﻿using MedicineProject.Domain.DTOs.Base;
-using MedicineProject.Domain.DTOs.WebMobile;
 
-namespace MedicineProject.Domain.DTOs
+namespace MedicineProject.Domain.DTOs.WebMobile
 {
     public record DoctorDTO : BaseDTO
     {
@@ -14,12 +13,12 @@ namespace MedicineProject.Domain.DTOs
         /// Отчество доктора не обязательный параметр
         /// </summary>
         public string? Patronymic { get; set; }
-        
+
         /// <summary>
         /// Id больницы к которой прикреплён доктор
         /// </summary>
         public long HospitalId { get; set; }
-        
+
         /// <summary>
         /// Id специальности доктора
         /// </summary>
