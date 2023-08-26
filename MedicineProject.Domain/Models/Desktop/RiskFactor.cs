@@ -1,4 +1,4 @@
-﻿using MedicineProject.Domain.DTOs;
+﻿using MedicineProject.Domain.DTOs.Desktop;
 using MedicineProject.Domain.Models.Base;
 
 namespace MedicineProject.Domain.Models.DesktopModels

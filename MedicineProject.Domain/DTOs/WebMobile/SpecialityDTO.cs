@@ -1,7 +1,7 @@
 ﻿using MedicineProject.Domain.DTOs.Base;
 using MedicineProject.Domain.Models.WebMobile;
 
-namespace MedicineProject.Domain.DTOs
+namespace MedicineProject.Domain.DTOs.WebMobile
 {
     public record SpecialityDTO : BaseDTO
     {

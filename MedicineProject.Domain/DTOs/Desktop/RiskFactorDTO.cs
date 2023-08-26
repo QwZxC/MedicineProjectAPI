@@ -1,7 +1,7 @@
 ﻿using MedicineProject.Domain.DTOs.Base;
 using MedicineProject.Domain.Models.DesktopModels;
 
-namespace MedicineProject.Domain.DTOs
+namespace MedicineProject.Domain.DTOs.Desktop
 {
     public record RiskFactorDTO : BaseDTO
     {

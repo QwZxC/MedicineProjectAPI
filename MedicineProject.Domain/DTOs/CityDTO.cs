@@ -1,4 +1,5 @@
 ﻿using MedicineProject.Domain.DTOs.Base;
+using MedicineProject.Domain.DTOs.WebMobile;
 using MedicineProject.Domain.Models.WebMobile;
 
 namespace MedicineProject.Domain.DTOs
