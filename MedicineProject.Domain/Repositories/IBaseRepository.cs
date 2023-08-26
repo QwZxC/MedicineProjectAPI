@@ -13,10 +13,8 @@ namespace MedicineProject.Domain.Repositories
 
         Task<EntityEntry<MODEL>> CreateItemAsync<MODEL>(MODEL item) where MODEL : BaseModel;
 
-        EntityEntry<MODEL> UpdateItemAsync<MODEL>(MODEL item, MODEL oldItem) where MODEL : BaseModel; 
+        Task<EntityEntry<MODEL>> UpdateItemAsync<MODEL>(MODEL item, MODEL oldItem) where MODEL : BaseModel; 
 
         Task DeleteItemAsync<MODEL>(long id) where MODEL : BaseModel;
-
-        Task SaveAsync();
     }
 }

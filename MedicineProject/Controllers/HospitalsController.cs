@@ -89,8 +89,6 @@ namespace MedicineProject.Controllers
 
             await mobileAndWebRepository.CreateItemAsync(mapper.Map<Hospital>(hospitalDTO));
 
-            await mobileAndWebRepository.SaveAsync();
-
             return Ok(hospitalDTO);
         }
 
@@ -122,8 +120,6 @@ namespace MedicineProject.Controllers
             oldHospital.Doctors = MapObjects<DoctorDTO, Doctor>(hospitalDTO.Doctors);
 
             mobileAndWebRepository.UpdateItemAsync(mapper.Map<Hospital>(hospitalDTO), oldHospital);
-
-            await mobileAndWebRepository.SaveAsync();
 
             return Ok(hospitalDTO);
         }

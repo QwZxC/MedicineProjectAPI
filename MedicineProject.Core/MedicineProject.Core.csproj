@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MedicineProject.Domain\MedicineProject.Domain.csproj" />
+    <ProjectReference Include="..\MedicineProject.Infrastructure\MedicineProject.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
