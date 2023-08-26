@@ -1,5 +1,4 @@
-﻿using MedicineProject.Domain.DTOs;
-using MedicineProject.Domain.Models.Base;
+﻿using MedicineProject.Domain.Models.Base;
 
 namespace MedicineProject.Domain.Models.WebMobile
 {
@@ -12,10 +11,5 @@ namespace MedicineProject.Domain.Models.WebMobile
         public List<Hospital> Hospitals { get; set; } = new List<Hospital>();
 
         public City() { }
-
-        public City(CityDTO city)
-        {
-            Name = city.Name;
-        }
     }
 }

@@ -1,6 +1,8 @@
-﻿namespace MedicineProject.Domain.DTOs.Desktop
+﻿using MedicineProject.Domain.DTOs.Base;
+
+namespace MedicineProject.Domain.DTOs.Desktop
 {
-    public record PatientDTO
+    public record PatientDTO : BaseDTO
     {
         /// <summary>
         /// Фамилия пациента

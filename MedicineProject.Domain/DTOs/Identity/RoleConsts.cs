@@ -2,8 +2,8 @@
 {
     public record RoleConsts
     {
-        public const string Patient = "Patient";
-        public const string Doctor = "Doctor";
-        public const string Administrator = "Administrator";
+        public const string PATIENT = "Patient";
+        public const string DOCTOR = "Doctor";
+        public const string ADMINISTRATOR = "Administrator";
     }
 }

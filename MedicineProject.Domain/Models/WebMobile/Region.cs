@@ -12,10 +12,5 @@ namespace MedicineProject.Domain.Models.WebMobile
         public List<City> Cities { get; set; } = new List<City>();
 
         public Region() { }
-
-        public Region(RegionDTO region)
-        {
-            Name = region.Name;
-        }
     }
 }

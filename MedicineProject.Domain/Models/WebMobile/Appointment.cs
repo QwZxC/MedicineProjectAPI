@@ -4,8 +4,6 @@ namespace MedicineProject.Domain.Models.WebMobile
 {
     public class Appointment : BaseModel
     {
-        public Appointment() { }
-
         public Patient Patient { get; set; }
 
         public Doctor Doctor { get; set; }
@@ -23,5 +21,8 @@ namespace MedicineProject.Domain.Models.WebMobile
         public long DoctorId { get; set; }
 
         public bool IsOpen { get; set; }
+
+        public Appointment() 
+        { }
     }
 }

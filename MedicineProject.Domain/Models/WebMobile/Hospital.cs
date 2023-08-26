@@ -1,5 +1,4 @@
-﻿using MedicineProject.Domain.DTOs.WebMobile;
-using MedicineProject.Domain.Models.Base;
+﻿using MedicineProject.Domain.Models.Base;
 
 namespace MedicineProject.Domain.Models.WebMobile
 {
@@ -26,18 +25,5 @@ namespace MedicineProject.Domain.Models.WebMobile
         public City City { get; set; }
 
         public Hospital() { }
-
-        public Hospital(HospitalDTO hospital)
-        {
-            Name = hospital.Name;
-            Description = hospital.Description;
-            Address = hospital.Address;
-            StartedTime = hospital.StartedTime;
-            EndTime = hospital.EndTime;
-            Rating = hospital.Rating;
-            Email = hospital.Email;
-            Contacts = hospital.Contacts;
-            CityId = hospital.CityId;
-        }
     }
 }
