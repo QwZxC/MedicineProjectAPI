@@ -10,11 +10,9 @@ namespace MedicineProject.Core.Service
     {
 
         private readonly MobileAndWebRepository _repository;
-        private readonly IMemoryCache _cache;
 
-        public PlaceService(IMemoryCache memoryCache, WebMobileContext context) 
+        public PlaceService(WebMobileContext context) 
         {
-            _cache = memoryCache;
             _repository = new MobileAndWebRepository(context);
         }
 

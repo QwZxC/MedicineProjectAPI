@@ -16,7 +16,7 @@ namespace MedicineProject.Controllers
     {
         private readonly IHospitalService _service;
 
-        public HospitalsController(IHospitalService service,WebMobileContext context, IMapper mapper, IMemoryCache memoryCache) 
+        public HospitalsController(WebMobileContext context, IMapper mapper, IMemoryCache memoryCache, IHospitalService service) 
             : base(context, mapper, memoryCache)
         {
             _service = service;
@@ -52,12 +52,7 @@ namespace MedicineProject.Controllers
                 return BadRequest();
             }
 
-            if (!cache.TryGetValue(id, out Hospital targetHospital))
-            {
-                return Ok(targetHospital);
-            }
-
-            targetHospital = await _service.GetHospitalByIdAsync(id);
+            Hospital targetHospital = await _service.GetHospitalByIdAsync(id);
 
             if (targetHospital == null)
             {
