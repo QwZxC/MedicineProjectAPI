@@ -23,12 +23,13 @@ namespace MedicineProject
 
             builder.Services.AddDbContext<WebMobileContext>(
                 options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             builder.Services.AddMemoryCache();
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
 
-
+            builder.Services.AddScoped<IHospitalService, HospitalService>();
             builder.Services.AddScoped<IMobileAndWebRepository, MobileAndWebRepository>();
             builder.Services.AddScoped<IAppointmentService, AppointmentService>();
             builder.Services.AddScoped<ITokenService, TokenService>();

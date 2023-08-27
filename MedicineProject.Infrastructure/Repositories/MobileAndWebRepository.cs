@@ -14,22 +14,6 @@ namespace MedicineProject.Infrastructure.Repositories
 
         }
 
-        public async Task<List<Hospital>> GetHospitalsWithFilterAsync(HospitalFilter filter)
-        {
-            List<Hospital> hospitals = new List<Hospital>();
-            await context.Hospital.ForEachAsync(hospital =>
-            {
-                if (hospital.Name.Contains(filter.Name) && 
-                    hospital.CityId == filter.CityId && 
-                    hospital.Rating >= filter.MinRating &&
-                    hospital.Rating <= filter.MaxRating)
-                {
-                    hospitals.Add(hospital);
-                }
-            });
-            return hospitals;
-        }
-
         public IEnumerable<TModel> GetItems<TModel>()
             where TModel : BaseModel
         {

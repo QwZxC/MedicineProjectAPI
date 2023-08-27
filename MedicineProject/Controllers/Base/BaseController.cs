@@ -29,14 +29,14 @@ namespace MedicineProject.Controllers.Base
         /// Первый джейнерик - тип из которого будет происходить преобразование.
         /// Второй джейнерик - тип в который будет происходить преоброзование.
         /// </summary>
-        /// <typeparam name="ORIGINAL_TYPE"></typeparam>
-        /// <typeparam name="TARGET_TYPE"></typeparam>
+        /// <typeparam name="TOriginal"></typeparam>
+        /// <typeparam name="TTarget"></typeparam>
         /// <param name="objects"></param>
         /// <returns></returns>
-        protected List<TARGET_TYPE> MapObjects<ORIGINAL_TYPE, TARGET_TYPE>(List<ORIGINAL_TYPE> objects)
+        protected List<TTarget> MapObjects<TOriginal, TTarget>(List<TOriginal> objects)
         {
-            List<TARGET_TYPE> DTOs = new List<TARGET_TYPE>();
-            objects.ForEach(item => DTOs.Add(mapper.Map<TARGET_TYPE>(item)));
+            List<TTarget> DTOs = new List<TTarget>();
+            objects.ForEach(item => DTOs.Add(mapper.Map<TTarget>(item)));
             return DTOs;
         }
     }
