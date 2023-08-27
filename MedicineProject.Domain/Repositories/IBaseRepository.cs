@@ -5,16 +5,16 @@ namespace MedicineProject.Domain.Repositories
 {
     public interface IBaseRepository
     {
-        Task<List<MODEL>> GetItemList<MODEL>() where MODEL : BaseModel;
+        Task<List<TModel>> GetItemListAsync<TModel>() where TModel : BaseModel;
 
-        Task<MODEL> TryGetItemByIdAsync<MODEL>(long id) where MODEL : BaseModel;
+        Task<TModel> TryGetItemByIdAsync<TModel>(long id) where TModel : BaseModel;
 
-        Task<MODEL> TryGetItemByNameAsync<MODEL>(string name) where MODEL : BaseModel;
+        Task<TModel> TryGetItemByNameAsync<TModel>(string name) where TModel : BaseModel;
 
-        Task<EntityEntry<MODEL>> CreateItemAsync<MODEL>(MODEL item) where MODEL : BaseModel;
+        Task<EntityEntry<TModel>> CreateItemAsync<TModel>(TModel item) where TModel : BaseModel;
 
-        Task<EntityEntry<MODEL>> UpdateItemAsync<MODEL>(MODEL item, MODEL oldItem) where MODEL : BaseModel; 
+        Task<EntityEntry<TModel>> UpdateItemAsync<TModel>(TModel item, TModel oldItem) where TModel : BaseModel; 
 
-        Task DeleteItemAsync<MODEL>(long id) where MODEL : BaseModel;
+        Task DeleteItemAsync<TModel>(long id) where TModel : BaseModel;
     }
 }

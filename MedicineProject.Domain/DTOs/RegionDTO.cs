@@ -8,7 +8,7 @@ namespace MedicineProject.Domain.DTOs
     {
         public long CountyId { get; set; }
         
-        public List<CityDTO> Cities { get; set; }
+        public List<CityDTO> Cities { get; set; } = new List<CityDTO>();
 
         public RegionDTO() { }
 

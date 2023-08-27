@@ -5,7 +5,7 @@ namespace MedicineProject.Domain.DTOs
 {
     public record CountyDTO : BaseDTO
     {
-        public List<RegionDTO> RegionDTOs { get; set; }
+        public List<RegionDTO> RegionDTOs { get; set; } = new List<RegionDTO>();
 
         public CountyDTO() { }
 

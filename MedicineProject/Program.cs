@@ -32,6 +32,7 @@ namespace MedicineProject
             builder.Services.AddScoped<IMobileAndWebRepository, MobileAndWebRepository>();
             builder.Services.AddScoped<IAppointmentService, AppointmentService>();
             builder.Services.AddScoped<ITokenService, TokenService>();
+            builder.Services.AddScoped<IPlaceService, PlaceService>();
             
             builder.Services.AddAuthentication(opt => {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
