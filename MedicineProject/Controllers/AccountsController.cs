@@ -31,6 +31,8 @@ namespace MedicineProject.Controllers
                 return BadRequest(ModelState);
             }
 
+            _accountService.TrimProperties(request);
+
             Patient? managedUser = await _accountService.FindUserByEmailAsync(request.Email);
 
             if (managedUser == null)
@@ -79,6 +81,8 @@ namespace MedicineProject.Controllers
             {
                 return BadRequest(request);
             }
+
+            _accountService.TrimProperties(request);
 
             IdentityRole<long> role = await _accountService.GetRoleByNameAsync(request.Role);
 

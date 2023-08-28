@@ -5,6 +5,7 @@ namespace MedicineProject.Domain.DTOs.Identity
     public record RegisterRequest
     {
         [Required]
+        [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; } = null!;
 

@@ -4,6 +4,7 @@ using MedicineProject.Domain.Models.WebMobile;
 using MedicineProject.Domain.Repositories;
 using MedicineProject.Domain.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -119,6 +120,28 @@ namespace MedicineProject.Core.Service
         public JwtSecurityToken CreateToken(ClaimsPrincipal principal)
         {
             return _configuration.CreateToken(principal.Claims.ToList());
+        }
+
+        /// <summary>
+        /// Убирает пробелы в строковых свойствах.
+        /// </summary>
+        /// <typeparam name="TRequest"></typeparam>
+        /// <param name="request"></param>
+        public void TrimProperties<TRequest>(TRequest request)
+        {
+            var type = typeof(TRequest);
+
+            var properties = type.GetProperties();
+
+            foreach(var prop in properties) 
+            {
+                var value = prop.GetValue(request);
+
+                if (value is string str)
+                {
+                    prop.SetValue(request, str.Trim());
+                }
+            }
         }
     }
 }

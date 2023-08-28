@@ -41,5 +41,7 @@ namespace MedicineProject.Domain.Services
         ClaimsPrincipal GetPrincipal(string accessToken);
 
         JwtSecurityToken CreateToken(ClaimsPrincipal principal);
+
+        void TrimProperties<T>(T request);
     }
 }
