@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using MedicineProject.Domain.Context;
 using MedicineProject.Domain.DTOs.WebMobile;
 using MedicineProject.Domain.Filters;
 using MedicineProject.Domain.Models.WebMobile;
+using MedicineProject.Domain.Repositories;
 using MedicineProject.Domain.Services;
 using MedicineProject.Infrastructure.Repositories;
 
@@ -10,12 +10,12 @@ namespace MedicineProject.Core.Service
 {
     public class HospitalService : IHospitalService
     {
-        private readonly MobileAndWebRepository _repository;
+        private readonly IMobileAndWebRepository _repository;
         private readonly IMapper _mapper;
 
-        public HospitalService(WebMobileContext context, IMapper mapper)
+        public HospitalService(IMobileAndWebRepository repository, IMapper mapper)
         {
-            _repository = new MobileAndWebRepository(context);
+            _repository = repository;
             _mapper = mapper;
         }
 

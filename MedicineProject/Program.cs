@@ -34,7 +34,8 @@ namespace MedicineProject
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IHospitalService, HospitalService>();
             builder.Services.AddScoped<IPlaceService, PlaceService>();
-            
+            builder.Services.AddScoped<IAccountService, AccountService>();
+
             builder.Services.AddAuthentication(opt => {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;

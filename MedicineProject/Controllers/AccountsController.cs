@@ -1,11 +1,7 @@
-﻿using MedicineProject.Domain.Context;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MedicineProject.Domain.Services;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using MedicineProject.Domain.Extensions;
 using MedicineProject.Domain.DTOs.Identity;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -17,20 +13,14 @@ namespace MedicineProject.Controllers
     [Route("api/[controller]")]
     public class AccountsController : ControllerBase
     {
-        private readonly UserManager<Patient> userManager;
-        private readonly WebMobileContext context;
-        private readonly ITokenService tokenService;
-        private readonly IConfiguration configuration;
-        private readonly IMapper mapper;
+        private readonly ITokenService _tokenService;
         private const string BAD_PASSWORD = "Пароль не соответствует ограничениям";
+        private readonly IAccountService _accountService;
 
-        public AccountsController(UserManager<Patient> userManager, WebMobileContext context, ITokenService tokenService, 
-                                  IConfiguration configuration)
+        public AccountsController(ITokenService tokenService, IAccountService accountService)
         {
-            this.userManager = userManager;
-            this.context = context;
-            this.tokenService = tokenService;
-            this.configuration = configuration;
+            _accountService = accountService;
+            _tokenService = tokenService;
         }
 
         [HttpPost("login")]
@@ -41,35 +31,35 @@ namespace MedicineProject.Controllers
                 return BadRequest(ModelState);
             }
 
-            Patient? managedUser = await userManager.FindByEmailAsync(request.Email);
+            Patient? managedUser = await _accountService.FindUserByEmailAsync(request.Email);
 
             if (managedUser == null)
             {
                 return BadRequest("Нет пользователя с данной почтой");
             }
 
-            bool isPasswordValid = await userManager.CheckPasswordAsync(managedUser, request.Password);
+            bool isPasswordValid = await _accountService.CheckPasswordAsync(managedUser, request.Password);
 
             if (!isPasswordValid)
             {
                 return BadRequest("Не верный пароль");
             }
 
-            Patient? user = await context.Patient.FirstOrDefaultAsync(u => u.Email == request.Email);
+            Patient? user = await _accountService.FindByEmailInDbAsync(request.Email);
 
             if (user is null)
             {
                 return Unauthorized();
             }
 
-            List<long> roleIds = await context.UserRoles.Where(r => r.UserId == user.Id).Select(x => x.RoleId).ToListAsync();
-            List<IdentityRole<long>> roles = context.Roles.Where(x => roleIds.Contains(x.Id)).ToList();
+            List<long> roleIds = await _accountService.FindRoleIdsAsync(user.Id);
+            List<IdentityRole<long>> roles = await _accountService.FindRolesAsync(roleIds);
 
-            string accessToken = tokenService.CreateToken(user, roles);
-            user.RefreshToken = configuration.GenerateRefreshToken();
-            user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(configuration.GetSection("Jwt:RefreshTokenValidityInDays").Get<int>());
+            string accessToken = _tokenService.CreateToken(user, roles);
+            user.RefreshToken = _accountService.GenerateRefreshToken();
+            user.RefreshTokenExpiryTime = _accountService.GetRefreshTokenExpiryTime();
 
-            await context.SaveChangesAsync();
+            await _accountService.SaveChangedAsync();
 
             return Ok(new AuthResponse
             {
@@ -90,22 +80,15 @@ namespace MedicineProject.Controllers
                 return BadRequest(request);
             }
 
-            IdentityRole<long> role = await context.Roles.FirstOrDefaultAsync(role => request.Role == role.Name);
+            IdentityRole<long> role = await _accountService.GetRoleByNameAsync(request.Role);
 
             if (role == null)
             {
                 return BadRequest("Неверная роль");
             }
 
-            Patient user = new Patient
-            {
-                Name = request.FirstName,
-                Surname = request.LastName,
-                Patronymic = request.MiddleName,
-                Email = request.Email,
-                UserName = request.Email,
-            };
-            IdentityResult result = await userManager.CreateAsync(user, request.Password);
+            Patient user = _accountService.CreateUser(request);
+            IdentityResult result = await _accountService.GetResultAsync(user, request.Password);
 
             foreach (var error in result.Errors)
             {
@@ -117,13 +100,13 @@ namespace MedicineProject.Controllers
                 return BadRequest(BAD_PASSWORD);
             }
 
-            Patient? findUser = await context.Patient.FirstOrDefaultAsync(x => x.Email == request.Email);
+            Patient? findUser = await _accountService.FindUserByEmailAsync(request.Email);
             if (findUser == null) 
             {
                 NotFound($"Пользователь {request.Email} не найден");
             } 
 
-            await userManager.AddToRoleAsync(findUser, request.Role);
+            await _accountService.LinkUserRole(findUser, request.Role);
 
             return await Authenticate(new AuthRequest
             {
@@ -144,7 +127,7 @@ namespace MedicineProject.Controllers
 
             string? accessToken = tokenModel.AccessToken;
             string? refreshToken = tokenModel.RefreshToken;
-            ClaimsPrincipal? principal = configuration.GetPrincipalFromExpiredToken(accessToken);
+            ClaimsPrincipal? principal = _accountService.GetPrincipal(accessToken);
 
             if (principal == null)
             {
@@ -152,18 +135,18 @@ namespace MedicineProject.Controllers
             }
 
             string? username = principal.Identity!.Name;
-            Patient? user = await userManager.FindByNameAsync(username!);
+            Patient? user = await _accountService.FindUserByNameAsync(username!);
 
             if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime >= DateTime.UtcNow)
             {
                 return BadRequest("неверный токен доступа или обновления");
             }
 
-            JwtSecurityToken newAccessToken = configuration.CreateToken(principal.Claims.ToList());
-            string? newRefreshToken = configuration.GenerateRefreshToken();
+            JwtSecurityToken newAccessToken = _accountService.CreateToken(principal);
+            string? newRefreshToken = _accountService.GenerateRefreshToken();
 
             user.RefreshToken = newRefreshToken;
-            await userManager.UpdateAsync(user);
+            await _accountService.UpdateUserAsync(user);
 
             return new ObjectResult(new
             {
@@ -177,14 +160,14 @@ namespace MedicineProject.Controllers
         [Route("revoke/{username}")]
         public async Task<IActionResult> Revoke(string username)
         {
-            Patient? user = await userManager.FindByNameAsync(username);
+            Patient? user = await _accountService.FindUserByNameAsync(username);
             if (user == null) 
             {
                 return NotFound("Invalid user name");
             }
 
             user.RefreshToken = null;
-            await userManager.UpdateAsync(user);
+            await _accountService.UpdateUserAsync(user);
 
             return Ok();
         }
@@ -194,13 +177,7 @@ namespace MedicineProject.Controllers
         [Route("revoke-all")]
         public async Task<IActionResult> RevokeAll()
         {
-            List<Patient> users = userManager.Users.ToList();
-            foreach (Patient user in users)
-            {
-                user.RefreshToken = null;
-                await userManager.UpdateAsync(user);
-            }
-
+            await _accountService.RevokeAllAsync();
             return Ok();
         }
 

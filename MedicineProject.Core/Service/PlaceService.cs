@@ -1,19 +1,17 @@
-﻿using MedicineProject.Domain.Context;
-using MedicineProject.Domain.Models.WebMobile;
+﻿using MedicineProject.Domain.Models.WebMobile;
+using MedicineProject.Domain.Repositories;
 using MedicineProject.Domain.Services;
-using MedicineProject.Infrastructure.Repositories;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace MedicineProject.Core.Service
 {
     public class PlaceService : IPlaceService
     {
 
-        private readonly MobileAndWebRepository _repository;
+        private readonly IMobileAndWebRepository _repository;
 
-        public PlaceService(WebMobileContext context) 
+        public PlaceService(IMobileAndWebRepository repository) 
         {
-            _repository = new MobileAndWebRepository(context);
+            _repository = repository;
         }
 
         public async Task<List<County>> GetPlacesAsync()
