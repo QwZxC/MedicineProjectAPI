@@ -4,13 +4,15 @@ using MedicineProject.Domain.Models.WebMobile;
 using MedicineProject.Domain.Repositories;
 using MedicineProject.Domain.Services;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace MedicineProject.Core.Service
 {
+    /// <summary>
+    /// Сервис для работы с пользовательскими аккаунтами
+    /// </summary>
     public class AccountService : IAccountService
     {
         private readonly UserManager<Patient> _userManager;
@@ -122,11 +124,6 @@ namespace MedicineProject.Core.Service
             return _configuration.CreateToken(principal.Claims.ToList());
         }
 
-        /// <summary>
-        /// Убирает пробелы в строковых свойствах.
-        /// </summary>
-        /// <typeparam name="TRequest"></typeparam>
-        /// <param name="request"></param>
         public void TrimProperties<TRequest>(TRequest request)
         {
             var type = typeof(TRequest);

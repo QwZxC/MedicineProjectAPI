@@ -4,9 +4,11 @@ using MedicineProject.Domain.Services;
 
 namespace MedicineProject.Core.Service
 {
+    /// <summary>
+    /// Сервис для работы с геолокацией.
+    /// </summary>
     public class PlaceService : IPlaceService
     {
-
         private readonly IMobileAndWebRepository _repository;
 
         public PlaceService(IMobileAndWebRepository repository) 

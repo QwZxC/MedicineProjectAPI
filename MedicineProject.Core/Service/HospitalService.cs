@@ -4,10 +4,12 @@ using MedicineProject.Domain.Filters;
 using MedicineProject.Domain.Models.WebMobile;
 using MedicineProject.Domain.Repositories;
 using MedicineProject.Domain.Services;
-using MedicineProject.Infrastructure.Repositories;
 
 namespace MedicineProject.Core.Service
 {
+    /// <summary>
+    /// Сервис для работы с больницами.
+    /// </summary>
     public class HospitalService : IHospitalService
     {
         private readonly IMobileAndWebRepository _repository;
