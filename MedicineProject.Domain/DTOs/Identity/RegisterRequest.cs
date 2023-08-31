@@ -5,6 +5,7 @@ namespace MedicineProject.Domain.DTOs.Identity
     public record RegisterRequest
     {
         [Required]
+        [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; } = null!;
 
@@ -34,6 +35,7 @@ namespace MedicineProject.Domain.DTOs.Identity
         [Display(Name = "Отчество")]
         public string? MiddleName { get; set; }
 
+        [Required]
         [Display(Name = "Роль")]
         public string Role { get; set; }
     }

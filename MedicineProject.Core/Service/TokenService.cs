@@ -7,6 +7,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace MedicineProject.Core.Services
 {
+    /// <summary>
+    /// Сервис для работы с токенами
+    /// </summary>
     public class TokenService : ITokenService
     {
         private readonly IConfiguration configuration;

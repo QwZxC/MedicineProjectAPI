@@ -6,6 +6,8 @@ using MedicineProject.Domain.Models.WebMobile;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using MedicineProject.Domain.Services;
+using System.Collections.Generic;
 
 namespace MedicineProject.Controllers
 {
@@ -13,49 +15,41 @@ namespace MedicineProject.Controllers
     [Route("api/[controller]")]
     public class PlacesController : BaseController
     {
-        public PlacesController(WebMobileContext context, IMapper mapper, IMemoryCache memoryCache) 
+        private readonly IPlaceService _placeService;
+        public PlacesController(WebMobileContext context, IMapper mapper, 
+                                IMemoryCache memoryCache, IPlaceService placeService) 
             : base(context, mapper, memoryCache)
         {
-
+            _placeService = placeService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<RegionDTO>>> GetPlaces()
+        public async Task<ActionResult<List<CountyDTO>>> GetPlaces()
         {
-            if (cache.TryGetValue(0, out List <CountyDTO> counties))
+            List<CountyDTO> counties;
+            if (cache.TryGetValue(0, out  counties))
             {
                 return Ok(counties);
             }
-            LoadCities();
-            LoadRegion();
+            counties = new List<CountyDTO>();
 
-            counties = await context.County.Select(region => mapper.Map<CountyDTO>(region)).ToListAsync();
-            counties.ForEach(county =>
+            List<County> countiesFromDb = await _placeService.GetPlacesAsync();
+
+            countiesFromDb.ForEach(county =>
             {
-                county.RegionDTOs = MapObjects<Region, RegionDTO>(context.County.Find(county.Id).Regions);
-                county.RegionDTOs.ForEach(region => region.Cities = MapObjects<City, CityDTO>(context.Region.Find(region.Id).Cities));
+                CountyDTO dto = mapper.Map<CountyDTO>(county);
+                dto.RegionDTOs = MapObjects<Region, RegionDTO>(county.Regions);
+                dto.RegionDTOs.ForEach(region => 
+                {
+                    region.Cities = MapObjects<City, CityDTO>(county.Regions.FirstOrDefault(dbRegion => 
+                                                                        dbRegion.Id == region.Id).Cities);
+                });
+                counties.Add(dto);
             });
 
-            cache.Set(0,counties);
+            cache.Set(0, counties);
 
             return Ok(counties);
-        }
-
-        private void LoadRegion()
-        {
-            context.County.ToList().ForEach(county => 
-            {
-                List<Region> regions = context.Region.ToList().FindAll(region => county.Id == region.CountyId);
-                county.Regions.AddRange(regions);
-            });
-        }
-
-        private void LoadCities()
-        {
-            context.Region.ToList().ForEach(region =>
-            {
-                region.Cities = context.City.ToList().FindAll(city => city.RegionId == region.Id);
-            });
         }
     }
 }

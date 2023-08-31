@@ -15,47 +15,47 @@ namespace MedicineProject.Domain.Repositories
             this.context = context;
         }
 
-        public async Task<EntityEntry<MODEL>> CreateItemAsync<MODEL>(MODEL item)
-            where MODEL : BaseModel
+        public async Task<EntityEntry<TModel>> CreateItemAsync<TModel>(TModel item)
+            where TModel : BaseModel
         {
-            var itemFromDb = await context.Set<MODEL>().AddAsync(item);
+            var itemFromDb = await context.Set<TModel>().AddAsync(item);
             await context.SaveChangesAsync();
             return itemFromDb;
         }
 
-        public async Task DeleteItemAsync<MODEL>(long id)
-            where MODEL : BaseModel
+        public async Task DeleteItemAsync<TModel>(long id)
+            where TModel : BaseModel
         {
-            MODEL oldItem = await context.Set<MODEL>().FindAsync(id);
+            TModel oldItem = await context.Set<TModel>().FindAsync(id);
             if( oldItem != null)
             {
-                context.Set<MODEL>().Remove(oldItem);
+                context.Set<TModel>().Remove(oldItem);
             }
             await context.SaveChangesAsync();
         }
 
-        public async Task<List<MODEL>> GetItemList<MODEL>()
-            where MODEL : BaseModel
+        public async Task<List<TModel>> GetItemListAsync<TModel>()
+            where TModel : BaseModel
         {
-            return await context.Set<MODEL>().ToListAsync();
+            return await context.Set<TModel>().ToListAsync();
         }
 
-        public async Task<MODEL> TryGetItemByIdAsync<MODEL>(long id)
-            where MODEL : BaseModel
+        public async Task<TModel> TryGetItemByIdAsync<TModel>(long id)
+            where TModel : BaseModel
         {
-            return await context.Set<MODEL>().FindAsync(id);
+            return await context.Set<TModel>().FindAsync(id);
         }
 
-        public async Task<MODEL> TryGetItemByNameAsync<MODEL>(string name)
-            where MODEL : BaseModel
+        public async Task<TModel> TryGetItemByNameAsync<TModel>(string name)
+            where TModel : BaseModel
         {
-            return await context.Set<MODEL>().FirstOrDefaultAsync(item => item.Name.Contains(name));
+            return await context.Set<TModel>().FirstOrDefaultAsync(item => item.Name.Contains(name));
         }
 
-        public async Task<EntityEntry<MODEL>> UpdateItemAsync<MODEL>(MODEL item, MODEL oldItem)
-            where MODEL : BaseModel
+        public async Task<EntityEntry<TModel>> UpdateItemAsync<TModel>(TModel item, TModel oldItem)
+            where TModel : BaseModel
         {
-            EntityEntry<MODEL> updatedItem = context.Set<MODEL>().Update(oldItem);
+            EntityEntry<TModel> updatedItem = context.Set<TModel>().Update(oldItem);
             await context.SaveChangesAsync();
             return updatedItem;
         }

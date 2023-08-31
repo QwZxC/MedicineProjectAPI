@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using MedicineProject.Domain.Models.WebMobile;
 using MedicineProject.Domain.DTOs.WebMobile;
+using MedicineProject.Domain.Services;
 
 namespace MedicineProject.Controllers
 {
@@ -13,10 +14,12 @@ namespace MedicineProject.Controllers
     [Route("api/[controller]")]
     public class HospitalsController : BaseController
     {
-        public HospitalsController(WebMobileContext context, IMapper mapper, IMemoryCache memoryCache) 
+        private readonly IHospitalService _service;
+
+        public HospitalsController(WebMobileContext context, IMapper mapper, IMemoryCache memoryCache, IHospitalService service) 
             : base(context, mapper, memoryCache)
         {
-
+            _service = service;
         }
 
         [HttpGet]
@@ -24,9 +27,9 @@ namespace MedicineProject.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<List<HospitalDTO>>> GetAllHospitals([FromQuery] HospitalFilter filter)
         {
-            List<Hospital> hospitals = await mobileAndWebRepository.GetHospitalsWithFilterAsync(filter);
+            List<Hospital> hospitals = await _service.GetHospitalsWithFilterAsync(filter);
             List<HospitalDTO> hospitalsDTOs = new List<HospitalDTO>();
-            
+
             hospitals.ForEach(hospital => 
             {
                 HospitalDTO hospitalDTO = mapper.Map<HospitalDTO>(hospital);
@@ -49,22 +52,16 @@ namespace MedicineProject.Controllers
                 return BadRequest();
             }
 
-            if (!cache.TryGetValue(id, out Hospital targetHospital))
-            {
-                return Ok(targetHospital);
-            }
-
-            targetHospital = await mobileAndWebRepository.TryGetItemByIdAsync<Hospital>(id);
+            Hospital targetHospital = await _service.GetHospitalByIdAsync(id);
 
             if (targetHospital == null)
             {
                 return NotFound("Такой больницы нет в списке");
             }
 
-            targetHospital.Doctors = await mobileAndWebRepository.LoadDoctorsForHospitalAsync(id);
-
             HospitalDTO hospitalDTO = mapper.Map<HospitalDTO>(targetHospital);
             hospitalDTO.Doctors = MapObjects<Doctor, DoctorDTO>(targetHospital.Doctors);
+            
             cache.Set(id, hospitalDTO);
 
             return Ok(hospitalDTO);
@@ -82,12 +79,12 @@ namespace MedicineProject.Controllers
                 return BadRequest();
             }
 
-            if (await mobileAndWebRepository.TryGetItemByNameAsync<Hospital>(hospitalDTO.Name) != null)
+            if (await _service.GetHospitalByNameAsync(hospitalDTO.Name) != null)
             {
                 return BadRequest("Больница с таким названием уже есть в списке");
             }
 
-            await mobileAndWebRepository.CreateItemAsync(mapper.Map<Hospital>(hospitalDTO));
+            await _service.AddHospitalAsync(hospitalDTO);
 
             return Ok(hospitalDTO);
         }
@@ -103,23 +100,15 @@ namespace MedicineProject.Controllers
             {
                 return BadRequest();
             }
-            Hospital oldHospital = await mobileAndWebRepository.TryGetItemByIdAsync<Hospital>(hospitalDTO.Id);
+            Hospital oldHospital = await _service.GetHospitalByIdAsync(hospitalDTO.Id);
 
             if (oldHospital == null)
             {
                 return NotFound("Такой больницы нет.");
             }
-            
-            oldHospital.Name = hospitalDTO.Name;
-            oldHospital.Description = hospitalDTO.Description;
-            oldHospital.StartedTime = hospitalDTO.StartedTime;
-            oldHospital.EndTime = hospitalDTO.EndTime;
-            oldHospital.CityId = hospitalDTO.CityId;
-            oldHospital.Rating = hospitalDTO.Rating;
-            oldHospital.Address = hospitalDTO.Address;
-            oldHospital.Doctors = MapObjects<DoctorDTO, Doctor>(hospitalDTO.Doctors);
 
-            mobileAndWebRepository.UpdateItemAsync(mapper.Map<Hospital>(hospitalDTO), oldHospital);
+            oldHospital.Doctors = MapObjects<DoctorDTO, Doctor>(hospitalDTO.Doctors);
+            await _service.UpdateHospitalAsync(hospitalDTO, oldHospital);
 
             return Ok(hospitalDTO);
         }

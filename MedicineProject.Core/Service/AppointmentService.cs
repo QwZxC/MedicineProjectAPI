@@ -6,6 +6,9 @@ using MedicineProject.Domain.Services;
 
 namespace MedicineProject.Core.Service
 {
+    /// <summary>
+    /// Сервис для работы с заявками.
+    /// </summary>
     public class AppointmentService : IAppointmentService
     {
         private readonly IMobileAndWebRepository mobileAndWebRepository;
