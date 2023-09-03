@@ -24,6 +24,7 @@ namespace MedicineProject.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CountyDTO>))]
         public async Task<ActionResult<List<CountyDTO>>> GetPlaces()
         {
             List<CountyDTO> counties;

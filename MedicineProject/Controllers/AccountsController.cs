@@ -24,6 +24,7 @@ namespace MedicineProject.Controllers
         }
 
         [HttpPost("login")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthResponse))]
         public async Task<ActionResult<AuthResponse>> Authenticate([FromBody] AuthRequest request)
         {
             if (!ModelState.IsValid)
@@ -75,6 +76,7 @@ namespace MedicineProject.Controllers
 
 
         [HttpPost("register")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthResponse))]
         public async Task<ActionResult<AuthResponse>> Register([FromBody] RegisterRequest request)
         {
             if (!ModelState.IsValid) 
@@ -122,6 +124,8 @@ namespace MedicineProject.Controllers
 
         [HttpPost]
         [Route("refresh-token")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RefreshToken(TokenModel? tokenModel)
         {
             if (tokenModel is null)
@@ -162,6 +166,8 @@ namespace MedicineProject.Controllers
         [Authorize]
         [HttpPost]
         [Route("revoke/{username}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Revoke(string username)
         {
             Patient? user = await _accountService.FindUserByNameAsync(username);
@@ -179,6 +185,7 @@ namespace MedicineProject.Controllers
         [Authorize]
         [HttpPost]
         [Route("revoke-all")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> RevokeAll()
         {
             await _accountService.RevokeAllAsync();
