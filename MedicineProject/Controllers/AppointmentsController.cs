@@ -54,7 +54,7 @@ namespace MedicineProject.Api.Controllers
         public ActionResult FireAndForget(string client)
         {
             string jobId = BackgroundJob.Enqueue(() => Console.WriteLine($"{client}, thank you for contacting us."));;
-            return Ok(jobId);
+            return Ok(jobId);   
         }
     }
 }
