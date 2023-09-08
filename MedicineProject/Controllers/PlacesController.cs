@@ -4,10 +4,8 @@ using MedicineProject.Controllers.Base;
 using MedicineProject.Domain.DTOs;
 using MedicineProject.Domain.Models.WebMobile;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using MedicineProject.Domain.Services;
-using System.Collections.Generic;
 
 namespace MedicineProject.Controllers
 {

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Hangfire;
 using MedicineProject.Controllers.Base;
 using MedicineProject.Domain.Context;
 using MedicineProject.Domain.DTOs.WebMobile;
@@ -46,6 +47,14 @@ namespace MedicineProject.Api.Controllers
             await appointmentService.CreateAsync(appointment);
 
             return Ok(appointment);
+        }
+
+        [HttpPost]
+        [Route("fire-and-forget")]
+        public ActionResult FireAndForget(string client)
+        {
+            string jobId = BackgroundJob.Enqueue(() => Console.WriteLine($"{client}, thank you for contacting us."));;
+            return Ok(jobId);
         }
     }
 }

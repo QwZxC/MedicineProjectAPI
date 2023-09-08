@@ -12,6 +12,9 @@ using MedicineProject.Core.Services;
 using MedicineProject.Core.Service;
 using MedicineProject.Domain.Repositories;
 using MedicineProject.Infrastructure.Repositories;
+using Hangfire;
+using Hangfire.PostgreSql;
+using Hangfire.Dashboard;
 
 namespace MedicineProject
 {
@@ -20,10 +23,14 @@ namespace MedicineProject
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            string dbConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
             builder.Services.AddDbContext<WebMobileContext>(
-                options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+                options => options.UseNpgsql(dbConnectionString));
 
+
+            builder.Services.AddHangfire(h => h.UsePostgreSqlStorage(dbConnectionString));
+            builder.Services.AddHangfireServer();
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             builder.Services.AddMemoryCache();
             builder.Services.AddControllers();
@@ -101,6 +108,7 @@ namespace MedicineProject
                 app.UseSwaggerUI();
             }
 
+            app.UseHangfireDashboard();
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
