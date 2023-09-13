@@ -12,10 +12,10 @@ namespace MedicineProject.Core.Service
     /// </summary>
     public class HospitalService : IHospitalService
     {
-        private readonly IMobileAndWebRepository _repository;
+        private readonly IHospitalRepository _repository;
         private readonly IMapper _mapper;
 
-        public HospitalService(IMobileAndWebRepository repository, IMapper mapper)
+        public HospitalService(IHospitalRepository repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;

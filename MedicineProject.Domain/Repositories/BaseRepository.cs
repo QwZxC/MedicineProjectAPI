@@ -8,56 +8,61 @@ namespace MedicineProject.Domain.Repositories
 {
     public class BaseRepository : IBaseRepository 
     {
-        protected readonly WebMobileContext context;
+        protected readonly WebMobileContext _context;
         
         public BaseRepository(WebMobileContext context)
         {
-            this.context = context;
+            _context = context;
         }
 
         public async Task<EntityEntry<TModel>> CreateItemAsync<TModel>(TModel item)
             where TModel : BaseModel
         {
-            var itemFromDb = await context.Set<TModel>().AddAsync(item);
-            await context.SaveChangesAsync();
+            var itemFromDb = await _context.Set<TModel>().AddAsync(item);
+            await _context.SaveChangesAsync();
             return itemFromDb;
         }
 
         public async Task DeleteItemAsync<TModel>(long id)
             where TModel : BaseModel
         {
-            TModel oldItem = await context.Set<TModel>().FindAsync(id);
+            TModel oldItem = await _context.Set<TModel>().FindAsync(id);
             if( oldItem != null)
             {
-                context.Set<TModel>().Remove(oldItem);
+                _context.Set<TModel>().Remove(oldItem);
             }
-            await context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List<TModel>> GetItemListAsync<TModel>()
             where TModel : BaseModel
         {
-            return await context.Set<TModel>().ToListAsync();
+            return await _context.Set<TModel>().ToListAsync();
         }
 
         public async Task<TModel> TryGetItemByIdAsync<TModel>(long id)
             where TModel : BaseModel
         {
-            return await context.Set<TModel>().FindAsync(id);
+            return await _context.Set<TModel>().FindAsync(id);
         }
 
         public async Task<TModel> TryGetItemByNameAsync<TModel>(string name)
             where TModel : BaseModel
         {
-            return await context.Set<TModel>().FirstOrDefaultAsync(item => item.Name.Contains(name));
+            return await _context.Set<TModel>().FirstOrDefaultAsync(item => item.Name.Contains(name));
         }
 
         public async Task<EntityEntry<TModel>> UpdateItemAsync<TModel>(TModel item, TModel oldItem)
             where TModel : BaseModel
         {
-            EntityEntry<TModel> updatedItem = context.Set<TModel>().Update(oldItem);
-            await context.SaveChangesAsync();
+            EntityEntry<TModel> updatedItem = _context.Set<TModel>().Update(oldItem);
+            await _context.SaveChangesAsync();
             return updatedItem;
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }

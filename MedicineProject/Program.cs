@@ -36,7 +36,13 @@ namespace MedicineProject
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
 
-            builder.Services.AddScoped<IMobileAndWebRepository, MobileAndWebRepository>();
+            // Репозиториии
+            builder.Services.AddScoped<IAccountRepositroy, AccountRepository>();
+            builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+            builder.Services.AddScoped<IHospitalRepository, HospitalRepository>();
+            builder.Services.AddScoped<IPlaceRepository, PlaceRepository>();
+
+            //Сервисы
             builder.Services.AddScoped<IAppointmentService, AppointmentService>();
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IHospitalService, HospitalService>();

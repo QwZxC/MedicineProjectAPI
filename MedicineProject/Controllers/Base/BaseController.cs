@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MedicineProject.Domain.Context;
-using MedicineProject.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -11,14 +10,12 @@ namespace MedicineProject.Controllers.Base
         protected readonly WebMobileContext context;
         protected readonly IMapper mapper;
         protected readonly IMemoryCache cache;
-        protected readonly MobileAndWebRepository mobileAndWebRepository;
 
         public BaseController(WebMobileContext context, IMapper mapper, IMemoryCache memoryCache)
         {
             this.context = context;
             this.mapper = mapper;
-            cache = memoryCache;
-            this.mobileAndWebRepository = new MobileAndWebRepository(context); 
+            cache = memoryCache; 
         }
 
         /// <summary>

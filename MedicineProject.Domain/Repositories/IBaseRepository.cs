@@ -16,5 +16,7 @@ namespace MedicineProject.Domain.Repositories
         Task<EntityEntry<TModel>> UpdateItemAsync<TModel>(TModel item, TModel oldItem) where TModel : BaseModel; 
 
         Task DeleteItemAsync<TModel>(long id) where TModel : BaseModel;
+
+        Task SaveChangesAsync();
     }
 }

@@ -35,9 +35,9 @@ namespace MedicineProject.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> SendAppointment([FromBody] AppointmentDTO appointment)
         {
-            var doctor = await mobileAndWebRepository.TryGetItemByIdAsync<Doctor>(appointment.DoctorId);
-            var patient = await userManager.FindByIdAsync(appointment.PatientId.ToString());
-            var type = await mobileAndWebRepository.TryGetItemByIdAsync<Domain.Models.WebMobile.Type>(appointment.TypeId);
+            Doctor doctor = await appointmentService.TryGetItemByIdAsync<Doctor>(appointment.DoctorId);
+            Patient patient = await userManager.FindByIdAsync(appointment.PatientId.ToString());
+            Domain.Models.WebMobile.Type type = await appointmentService.TryGetItemByIdAsync<Domain.Models.WebMobile.Type>(appointment.TypeId);
 
             if (doctor == null || patient == null || type == null)
             {

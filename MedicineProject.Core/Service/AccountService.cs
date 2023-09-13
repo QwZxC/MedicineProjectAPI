@@ -17,9 +17,9 @@ namespace MedicineProject.Core.Service
     {
         private readonly UserManager<Patient> _userManager;
         private readonly IConfiguration _configuration;
-        private readonly IMobileAndWebRepository _repository;
+        private readonly IAccountRepositroy _repository;
 
-        public AccountService(UserManager<Patient> userManager, IMobileAndWebRepository repository, 
+        public AccountService(UserManager<Patient> userManager, IAccountRepositroy repository, 
                               IConfiguration configuration) 
         {
             _userManager = userManager;

@@ -9,9 +9,9 @@ namespace MedicineProject.Core.Service
     /// </summary>
     public class PlaceService : IPlaceService
     {
-        private readonly IMobileAndWebRepository _repository;
+        private readonly IPlaceRepository _repository;
 
-        public PlaceService(IMobileAndWebRepository repository) 
+        public PlaceService(IPlaceRepository repository) 
         {
             _repository = repository;
         }
