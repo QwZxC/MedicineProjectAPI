@@ -10,7 +10,7 @@ namespace MedicineProject.Domain.Filters
 
         public int MaxRating { get; set; } = 5;
 
-        public long CityId { get; set; }
+        public string CityName { get; set; }
 
         public HospitalFilter()
         {

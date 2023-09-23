@@ -49,12 +49,12 @@ namespace MedicineProject.Core.Service
 
         public async Task<List<Hospital>> GetHospitalsWithFilterAsync(HospitalFilter filter)
         {
-            List<Hospital> dbHospitals = await _repository.GetItemListAsync<Hospital>();
+            List<Hospital> dbHospitals = await _repository.GetHospitalsAsync();
             List<Hospital> hospitals = new List<Hospital>();
             dbHospitals.ForEach(hospital =>
             {
                 if (hospital.Name.Contains(filter.Name) &&
-                    hospital.CityId == filter.CityId &&
+                    hospital.City.Name == filter.CityName &&
                     hospital.Rating >= filter.MinRating &&
                     hospital.Rating <= filter.MaxRating)
                 {

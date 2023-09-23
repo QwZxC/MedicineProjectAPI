@@ -15,6 +15,11 @@ namespace MedicineProject.Infrastructure.Repositories
 
         }
 
+        public async Task<List<Hospital>> GetHospitalsAsync()
+        {
+            return await context.Hospital.Include(hospital => hospital.City).ToListAsync();
+        }
+
         public async Task<IdentityRole<long>> FindRoleByNameAsync(string name)
         {
             return await context.Roles.FirstOrDefaultAsync(role => name == role.Name);

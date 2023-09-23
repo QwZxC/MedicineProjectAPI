@@ -14,5 +14,6 @@ namespace MedicineProject.Domain.Repositories
         Task<List<long>> FindRoleIdsAsync(long userId);
         Task<List<IdentityRole<long>>> FindRolesAsync(List<long> roleIds);
         Task<IdentityRole<long>> FindRoleByNameAsync(string name);
+        Task<List<Hospital>> GetHospitalsAsync();
     }
 }
