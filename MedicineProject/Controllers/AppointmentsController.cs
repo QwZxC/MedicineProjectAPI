@@ -50,11 +50,11 @@ namespace MedicineProject.Api.Controllers
         }
 
         [HttpPost]
-        [Route("fire-and-forget")]
-        public ActionResult FireAndForget(string client)
+        [Route("new-appointment")]
+        public async Task<ActionResult> FireAndForget()
         {
-            string jobId = BackgroundJob.Enqueue(() => Console.WriteLine($"{client}, thank you for contacting us."));;
-            return Ok(jobId);   
+            RecurringJob.AddOrUpdate(() => appointmentService.UpdateTasksAsync(), Cron.Weekly);
+            return Ok();   
         }
     }
 }

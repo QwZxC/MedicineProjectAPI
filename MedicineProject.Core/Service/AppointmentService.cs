@@ -37,5 +37,49 @@ namespace MedicineProject.Core.Service
         {
             return await _repository.TryGetItemByIdAsync<TModel>(id);
         }
+
+        public async Task UpdateTasksAsync()
+        {
+            List<Appointment> appointments = await _repository.GetItemListAsync<Appointment>();
+            DeleteTasks(appointments);
+            CreateTasks();
+        }
+
+        private async void CreateTasks()
+        {
+            List<Doctor> doctors = await _repository.GetItemListAsync<Doctor>();
+
+            doctors.ForEach(doctor =>
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    doctor.Appointments.Add(new Appointment() 
+                    { 
+                        Doctor = doctor,
+                        DoctorId = doctor.Id,
+                        Date = DateTime.Now.AddDays(7)
+                    });
+                }
+            });
+            await _repository.SaveChangesAsync();
+        }
+
+
+        private void DeleteTasks(List<Appointment> appointments)
+        {
+            List<Appointment> appointmentsToRemove = new List<Appointment>();
+
+            appointments.ForEach(appointment =>
+            {
+                if (appointment.Date < DateTime.Now)
+                {
+                    appointmentsToRemove.Add(appointment);
+                }
+            });
+
+            _repository.DeleteTasks(appointmentsToRemove);
+
+            appointmentsToRemove.ForEach(appointment => appointments.Remove(appointment));
+        }
     }
 }

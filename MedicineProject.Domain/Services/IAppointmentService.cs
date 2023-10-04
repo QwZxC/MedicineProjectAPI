@@ -11,6 +11,9 @@ namespace MedicineProject.Domain.Services
         /// <param name="appointment"></param>
         /// <returns></returns>
         Task<AppointmentDTO> CreateAsync(AppointmentDTO appointment);
+        
         Task<TModel> TryGetItemByIdAsync<TModel>(long id) where TModel : BaseModel;
+
+        Task UpdateTasksAsync();
     }
 }
