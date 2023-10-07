@@ -1,19 +1,11 @@
 using MedicineProject.Domain.Context;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.OpenApi.Models;
 using MedicineProject.Domain.Services;
-using MedicineProject.Domain.Models.WebMobile;
 using MedicineProject.Core.Service;
 using MedicineProject.Domain.Repositories;
 using MedicineProject.Infrastructure.Repositories;
 using Hangfire;
 using Hangfire.PostgreSql;
-using Hangfire.Dashboard;
 
 namespace MedicineProject
 {
@@ -37,12 +29,10 @@ namespace MedicineProject
 
             // Репозиториии
             builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
-            builder.Services.AddScoped<IHospitalRepository, HospitalRepository>();
             builder.Services.AddScoped<IPlaceRepository, PlaceRepository>();
 
             //Сервисы
             builder.Services.AddScoped<IAppointmentService, AppointmentService>();
-            builder.Services.AddScoped<IHospitalService, HospitalService>();
             builder.Services.AddScoped<IPlaceService, PlaceService>();
 
             builder.Services.AddSwaggerGen();
@@ -57,7 +47,7 @@ namespace MedicineProject
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            app.UseHttpsRedirection();  
             app.MapControllers();
             app.UseHangfireDashboard();
 

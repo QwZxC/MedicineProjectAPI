@@ -5,13 +5,13 @@ VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicineProject.Api", "MedicineProject\MedicineProject.Api.csproj", "{70F94FCC-04BE-42B3-A45B-DC6E9D5C5B38}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2283F87D-71FF-43FB-A6C3-DB6D0884ECEF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicineProject.Infrastructure", "MedicineProject.Infrastructure\MedicineProject.Infrastructure.csproj", "{BEBAF971-D29E-4B6F-987A-01A528DDC56B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicineProject.Domain", "MedicineProject.Domain\MedicineProject.Domain.csproj", "{9A26744D-FE08-45D8-9FF0-7D849A4FAAAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicineProject.Core", "MedicineProject.Core\MedicineProject.Core.csproj", "{C4BCD288-A43F-499C-ABF8-E95E659005B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicineProject.Core", "MedicineProject.Core\MedicineProject.Core.csproj", "{C4BCD288-A43F-499C-ABF8-E95E659005B0}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{81AC2FB7-8D12-4920-B4F3-0CD60A09B5A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,6 @@ Global
 		{70F94FCC-04BE-42B3-A45B-DC6E9D5C5B38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70F94FCC-04BE-42B3-A45B-DC6E9D5C5B38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70F94FCC-04BE-42B3-A45B-DC6E9D5C5B38}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2283F87D-71FF-43FB-A6C3-DB6D0884ECEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2283F87D-71FF-43FB-A6C3-DB6D0884ECEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2283F87D-71FF-43FB-A6C3-DB6D0884ECEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2283F87D-71FF-43FB-A6C3-DB6D0884ECEF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BEBAF971-D29E-4B6F-987A-01A528DDC56B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BEBAF971-D29E-4B6F-987A-01A528DDC56B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEBAF971-D29E-4B6F-987A-01A528DDC56B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +35,10 @@ Global
 		{C4BCD288-A43F-499C-ABF8-E95E659005B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4BCD288-A43F-499C-ABF8-E95E659005B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4BCD288-A43F-499C-ABF8-E95E659005B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81AC2FB7-8D12-4920-B4F3-0CD60A09B5A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81AC2FB7-8D12-4920-B4F3-0CD60A09B5A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81AC2FB7-8D12-4920-B4F3-0CD60A09B5A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81AC2FB7-8D12-4920-B4F3-0CD60A09B5A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,7 +6,7 @@ WORKDIR /app
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["MedicineProject/MedicineProject.Api.csproj", "MedicineProject.Api/"]
-RUN dotnet restore "MedicineProject/MedicineProject.Api.csproj"
+#RUN dotnet restore "MedicineProject/MedicineProject.Api.csproj"
 COPY . .
 WORKDIR "/src/MedicineProject"
 RUN dotnet build "MedicineProject.Api.csproj" -c Release -o /app/build

@@ -14,7 +14,6 @@ namespace MedicineProject.Domain.Mapping
             CreateMap<Models.WebMobile.Patient, DTOs.WebMobile.PatientDTO>().ReverseMap();
             CreateMap<Illness, IllnessDTO>().ReverseMap();
             CreateMap<RiskFactor, RiskFactorDTO>().ReverseMap();
-            CreateMap<Hospital, HospitalDTO>().ReverseMap();
             CreateMap<Speciality, SpecialityDTO>().ReverseMap();
             CreateMap<Doctor, DTOs.WebMobile.DoctorDTO>().ReverseMap();
             CreateMap<Region, RegionDTO>().ReverseMap();
