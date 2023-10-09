@@ -19,8 +19,6 @@ namespace MedicineProject.Domain.Context
 
         public DbSet<County> County { get; set; }
 
-        public DbSet<Appointment> Appointment { get; set; }
-
         public DbSet<Patient> Patient { get; set; }
 
         public WebMobileContext(DbContextOptions<WebMobileContext> options) 

@@ -15,11 +15,6 @@ namespace MedicineProject.Domain.DTOs.Desktop
         public long SpecialityId { get; set; }
 
         /// <summary>
-        /// Список заявок у доктора
-        /// </summary>
-        public List<AppointmentDTO> Appointments { get; set; }
-
-        /// <summary>
         /// Специальность доктора
         /// </summary>
         public SpecialityDTO Speciality { get; set; }

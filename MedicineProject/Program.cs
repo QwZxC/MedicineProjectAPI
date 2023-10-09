@@ -28,11 +28,9 @@ namespace MedicineProject
             builder.Services.AddEndpointsApiExplorer();
 
             // Репозиториии
-            builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
             builder.Services.AddScoped<IPlaceRepository, PlaceRepository>();
 
             //Сервисы
-            builder.Services.AddScoped<IAppointmentService, AppointmentService>();
             builder.Services.AddScoped<IPlaceService, PlaceService>();
 
             builder.Services.AddSwaggerGen();

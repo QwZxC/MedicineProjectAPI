@@ -16,8 +16,6 @@ namespace MedicineProject.Domain.Models.WebMobile
 
         public Speciality Speciality { get; set; }
 
-        public List<Appointment> Appointments { get; set; }
-
         public Doctor()
         {
 

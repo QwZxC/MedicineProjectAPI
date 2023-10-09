@@ -19,8 +19,6 @@ namespace MedicineProject.Domain.Mapping
             CreateMap<Region, RegionDTO>().ReverseMap();
             CreateMap<County, CountyDTO>().ReverseMap();
             CreateMap<City, CityDTO>().ReverseMap();
-            CreateMap<Models.WebMobile.Type, TypeDTO>().ReverseMap();
-            CreateMap<Appointment, AppointmentDTO>().ReverseMap();
         }
     }
 }

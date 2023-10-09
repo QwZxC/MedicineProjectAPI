@@ -12,8 +12,6 @@ namespace MedicineProject.Domain.Models.WebMobile
 
         public string? RefreshToken { get; set; }
 
-        public List<Appointment> Appointments { get; set; }
-
         public DateTime RefreshTokenExpiryTime { get; set; }
 
         public Patient() 
